@@ -36,7 +36,6 @@ public class WcifPatcher implements Runnable {
                 continue;
             }
 
-
             final ObjectNode jsonNode;
             try {
                 jsonNode = wcaApi.serializeNode(request.competition());
@@ -51,7 +50,6 @@ public class WcifPatcher implements Runnable {
             schedule.remove("persons");
             schedule.remove("events");
             wcaApi.updateWcifDirectly(request.session(), request.competition().getId(), schedule);
-
 
             final ArrayNode personsArray = (ArrayNode) jsonNode.get("persons");
             for (int i = 0; i < personsArray.size(); i += 15) {

@@ -44,12 +44,12 @@ public class OauthApi {
         formData.put("client_secret", config.clientSecret());
         formData.put("redirect_uri", config.oauthRedirectUri());
 
-        String encodedForm = formData.entrySet().stream()
+        final String encodedForm = formData.entrySet().stream()
                 .map(entry -> URLEncoder.encode(entry.getKey(), StandardCharsets.UTF_8) + "=" +
                         URLEncoder.encode(entry.getValue(), StandardCharsets.UTF_8))
                 .collect(Collectors.joining("&"));
 
-        HttpRequest request = HttpRequest.newBuilder()
+        final HttpRequest request = HttpRequest.newBuilder()
                 .uri(URI.create(config.wcaUrl() + "/oauth/token"))
                 .header("Content-Type", "application/x-www-form-urlencoded")
                 .POST(HttpRequest.BodyPublishers.ofString(encodedForm))

@@ -9,7 +9,6 @@ public enum ResultType {
     @JsonValue
     private final String jsonValue;
 
-
     ResultType(final String jsonValue) {
         this.jsonValue = jsonValue;
     }

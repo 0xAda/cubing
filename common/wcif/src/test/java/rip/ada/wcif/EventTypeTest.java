@@ -16,7 +16,6 @@ public class EventTypeTest {
         assertEquals("\"333\"", new ObjectMapper().writeValueAsString(OfficialEvent.THREE_BY_THREE));
     }
 
-
     @Test
     public void shouldDeserializeEvent() throws JsonProcessingException {
         assertEquals(OfficialEvent.THREE_BY_THREE, new ObjectMapper().readValue("\"333\"", EventType.class));

@@ -43,5 +43,4 @@ public class WCAConfigCompatibilityTest {
         AssertUnchanged.assertUnchanged("https://raw.githubusercontent.com/thewca/worldcubeassociation.org/refs/heads/main/", file, hash);
     }
 
-
 }

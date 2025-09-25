@@ -9,6 +9,7 @@ allprojects {
 
 subprojects {
     apply plugin: 'java'
+    apply plugin: 'checkstyle'
 
     java {
         toolchain {
@@ -24,5 +25,9 @@ subprojects {
 
     tasks.withType(Test).configureEach {
         useJUnitPlatform()
+    }
+
+    checkstyle {
+        toolVersion = "10.12.4"
     }
 }

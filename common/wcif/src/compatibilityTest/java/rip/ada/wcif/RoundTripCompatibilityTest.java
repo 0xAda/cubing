@@ -26,7 +26,6 @@ public class RoundTripCompatibilityTest {
             .registerModule(new JavaTimeModule());
     public static final HttpClient HTTP_CLIENT = HttpClient.newHttpClient();
 
-
     @ParameterizedTest(name = "{0}")
     @MethodSource("allCompetitions")
     @Retention(RetentionPolicy.RUNTIME)

@@ -41,8 +41,8 @@ public class AuthenticatedWcaApi extends UnauthenticatedWcaApi {
 
     public List<CompetitionInfo> getCompetitionList(final OauthSession session) {
         try {
-            LocalDateTime oneWeekAgo = LocalDateTime.now().minusWeeks(1);
-            String isoDate = oneWeekAgo.format(DateTimeFormatter.ISO_DATE);
+            final LocalDateTime oneWeekAgo = LocalDateTime.now().minusWeeks(1);
+            final String isoDate = oneWeekAgo.format(DateTimeFormatter.ISO_DATE);
 
             final HttpRequest request = authenticatedGet(session, "competitions?managed_by_me=true&sort=start_date&start=" + isoDate);
             final String body = httpClient.send(request, HttpResponse.BodyHandlers.ofString()).body();
