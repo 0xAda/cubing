@@ -12,6 +12,7 @@
             <option value="$PROJECT_DIR$/common" />
             <option value="$PROJECT_DIR$/common/wca-api" />
             <option value="$PROJECT_DIR$/common/wca-oauth" />
+            <option value="$PROJECT_DIR$/common/wca-scraper" />
             <option value="$PROJECT_DIR$/common/wcif" />
             <option value="$PROJECT_DIR$/service" />
             <option value="$PROJECT_DIR$/service/groups" />
