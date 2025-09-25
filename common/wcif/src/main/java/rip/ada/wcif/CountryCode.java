@@ -199,7 +199,16 @@ public enum CountryCode {
     YE("Yemen", "Asia"),
     ZA("South Africa", "Africa"),
     ZM("Zambia", "Africa"),
-    ZW("Zimbabwe", "Africa");
+    ZW("Zimbabwe", "Africa"),
+    XA("Multiple Counties (Asia)", "Asia"),
+    XE("Multiple Counties (Europe)", "Europe"),
+    XF("Multiple Counties (Africa)", "Africa"),
+    XM("Multiple Counties (Americas)", "Multiple"),
+    XN("Multiple Counties (North America)", "North America"),
+    XO("Multiple Counties (Oceania)", "Oceania"),
+    XS("Multiple Counties (South America)", "South America"),
+    XW("Multiple Counties (World)", "Multiple"),
+    ;
 
     private final String name;
     private final String continent;
