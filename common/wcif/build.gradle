@@ -1,0 +1,43 @@
+sourceSets {
+    examples {
+        java {
+            srcDirs = ['src/examples/java']
+        }
+        resources {
+            srcDirs = ['src/examples/resources']
+        }
+        compileClasspath += sourceSets.main.output + configurations.testRuntimeClasspath
+        runtimeClasspath += output + compileClasspath
+    }
+    compatibilityTest {
+        java {
+            srcDirs = ['src/compatibilityTest/java']
+        }
+        resources {
+            srcDirs = ['src/compatibilityTest/resources']
+        }
+        compileClasspath += sourceSets.main.output + configurations.testRuntimeClasspath
+        runtimeClasspath += output + compileClasspath
+    }
+}
+
+dependencies {
+    implementation 'com.fasterxml.jackson.core:jackson-databind:2.18.0'
+    implementation 'com.fasterxml.jackson.core:jackson-annotations:2.18.0'
+    implementation 'com.fasterxml.jackson.datatype:jackson-datatype-jsr310:2.18.0'
+}
+
+configurations {
+    compatibilityTestImplementation.extendsFrom testImplementation
+    compatibilityTestRuntimeOnly.extendsFrom testRuntimeOnly
+}
+
+tasks.register('compatibilityTest', Test) {
+    description = 'Runs compatibility tests.'
+    group = 'verification'
+    testClassesDirs = sourceSets.compatibilityTest.output.classesDirs
+    classpath = sourceSets.main.runtimeClasspath + sourceSets.compatibilityTest.runtimeClasspath
+    shouldRunAfter test
+    outputs.cacheIf { false }
+    useJUnitPlatform()
+}
