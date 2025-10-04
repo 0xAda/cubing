@@ -27,7 +27,7 @@ public class CompetitionScrapingTest {
     }
 
     private String readResource(final String resource) {
-        try (final InputStream is = CompetitionScrapingTest.class.getClassLoader().getResourceAsStream(resource)) {
+        try (InputStream is = CompetitionScrapingTest.class.getClassLoader().getResourceAsStream(resource)) {
             return new String(is.readAllBytes(), StandardCharsets.UTF_8);
         } catch (final IOException e) {
             throw new RuntimeException(e);

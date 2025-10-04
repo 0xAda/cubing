@@ -207,8 +207,7 @@ public enum CountryCode {
     XN("Multiple Counties (North America)", "North America"),
     XO("Multiple Counties (Oceania)", "Oceania"),
     XS("Multiple Counties (South America)", "South America"),
-    XW("Multiple Counties (World)", "Multiple"),
-    ;
+    XW("Multiple Counties (World)", "Multiple");
 
     private final String name;
     private final String continent;

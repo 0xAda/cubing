@@ -1,0 +1,19 @@
+<!doctype html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title></title>
+</head>
+<body>
+{{#if competitions}}
+    {{#each competitions}}
+    <a href="/competition/{{this.id}}">
+        <div>{{this.name}}</div>
+    </a>
+    {{/each}}
+{{else}}
+    No competitions this weekend!
+{{/if}}
+</body>
+</html>

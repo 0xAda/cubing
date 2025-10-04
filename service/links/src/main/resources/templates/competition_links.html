@@ -1,0 +1,26 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>{{competitionName}}</title>
+</head>
+<body>
+    <div class="container">
+        <header class="header">
+            <h1>{{competitionName}}</h1>
+<!--            <h2>{{currentEvent}}</h2>-->
+        </header>
+
+        <main class="links-section">
+            {{#each this.links}}
+            <a href="{{this.url}}" class="link-card" target="_blank" rel="noopener noreferrer">
+                <div class="link-icon"><img src="{{this.img}}" alt="{{this.title}} logo"/></div>
+                <div class="link-title">{{this.title}}</div>
+            </a>
+            {{/each}}
+        </main>
+
+    </div>
+</body>
+</html>
