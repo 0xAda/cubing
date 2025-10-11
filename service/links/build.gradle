@@ -1,5 +1,6 @@
 plugins {
     id "com.gradleup.shadow" version "9.0.0-beta4"
+    id "com.netflix.nebula.ospackage" version "12.1.1"
 }
 
 dependencies {
@@ -12,4 +13,36 @@ dependencies {
     implementation("com.fasterxml.jackson.core:jackson-databind:2.18.0")
     implementation("com.fasterxml.jackson.core:jackson-annotations:2.18.0")
     implementation("com.fasterxml.jackson.datatype:jackson-datatype-jsr310:2.18.0")
+}
+
+tasks.register('rpm', Rpm) {
+    packageName = "links"
+    version "${rootProject.version}"
+    release "1"
+    arch = NOARCH
+    os = LINUX
+    summary = "Links Service"
+    description = "Links Service"
+    license = "Unlicense"
+    vendor = "Ada"
+    maintainer = "acooke@worldcubeassociation.org"
+    requires("temurin-25-jre")
+
+    into "/opt/cubing/links"
+
+    from (tasks.shadowJar) {
+        into "/opt/cubing/links/lib"
+    }
+
+    from ("src/main/dist/links.service") {
+        addParentDirs = false
+        into "/usr/lib/systemd/system"
+    }
+
+    from ("src/main/dist/start-service.sh") {
+        into "/opt/cubing/links"
+    }
+
+    postInstall "systemctl daemon-reload"
+    postUninstall "systemctl daemon-reload"
 }
