@@ -99,7 +99,7 @@ public class ReactionBikeshed {
 
     private void addCompetitionToEmbed(final Message message, final CompetitionInfo competitionInfo) {
         final List<String> comps = filterComps(message);
-        String chosenChar = chooseEmoji(competitionInfo, comps);
+        final String chosenChar = chooseEmoji(competitionInfo, comps);
         if (chosenChar == null) {
             return;
         }
