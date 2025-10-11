@@ -5,6 +5,7 @@ include('common:wca-oauth')
 include('common:wca-scraper')
 include('common:wcif')
 
+include('service:bot')
 include('service:groups')
 include('service:spreadsheet')
 include('service:links')

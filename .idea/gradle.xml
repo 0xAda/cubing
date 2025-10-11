@@ -16,6 +16,7 @@
             <option value="$PROJECT_DIR$/common/wca-scraper" />
             <option value="$PROJECT_DIR$/common/wcif" />
             <option value="$PROJECT_DIR$/service" />
+            <option value="$PROJECT_DIR$/service/bot" />
             <option value="$PROJECT_DIR$/service/groups" />
             <option value="$PROJECT_DIR$/service/links" />
             <option value="$PROJECT_DIR$/service/spreadsheet" />
