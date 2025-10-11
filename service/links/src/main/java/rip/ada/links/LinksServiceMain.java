@@ -41,7 +41,7 @@ public class LinksServiceMain {
                 .get("/", indexHandler)
                 .get("/competition/{competition}", competitionHandler)
                 .get("/api/sponsoredby/{sponsor}", sponsoredListHandler)
-                .start(6002);
+                .start("0.0.0.0", 6002);
     }
 
 }
