@@ -11,17 +11,25 @@ import net.dv8tion.jda.api.utils.MemberCachePolicy;
 import rip.ada.wca.UnauthenticatedWcaApi;
 import rip.ada.wca.WcaApiConfig;
 
+import java.io.File;
+import java.io.FileInputStream;
+import java.io.FileNotFoundException;
+import java.io.IOException;
 import java.util.EnumSet;
+import java.util.Properties;
 import java.util.concurrent.Executors;
 import java.util.concurrent.ScheduledExecutorService;
 import java.util.concurrent.TimeUnit;
 
 public class BotServiceMain {
 
-    static void main() throws InterruptedException {
+    static void main(final String[] args) throws InterruptedException, IOException {
+        final Properties properties = new Properties();
+        properties.load(new FileInputStream(args[0]));
+
         final UnauthenticatedWcaApi wcaApi = new UnauthenticatedWcaApi(WcaApiConfig.unauthenticatedDefault());
         final ReactionBikeshed reactionBikeshed = new ReactionBikeshed();
-        final JDA bot = JDABuilder.createLight(System.getenv("BOT_TOKEN"),
+        final JDA bot = JDABuilder.createLight(properties.getProperty("botToken"),
                         EnumSet.of(GatewayIntent.GUILD_MESSAGES, GatewayIntent.MESSAGE_CONTENT, GatewayIntent.GUILD_MESSAGE_REACTIONS, GatewayIntent.GUILD_MEMBERS))
                 .setChunkingFilter(ChunkingFilter.ALL)
                 .setMemberCachePolicy(MemberCachePolicy.ALL)
