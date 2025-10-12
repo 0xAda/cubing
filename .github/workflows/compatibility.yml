@@ -16,7 +16,7 @@ jobs:
       - name: Set up java
         uses: actions/setup-java@v2
         with:
-          java-version: 21
+          java-version: 25
           distribution: 'zulu'
       - name: Compatibility Test
         run: ./gradlew compatibilityTest --rerun-tasks
