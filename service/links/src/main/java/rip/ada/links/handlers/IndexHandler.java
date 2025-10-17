@@ -6,8 +6,6 @@ import io.javalin.http.Handler;
 import rip.ada.links.Competition;
 import rip.ada.links.Competitions;
 
-import java.time.LocalDate;
-import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 
@@ -25,14 +23,7 @@ public class IndexHandler implements Handler {
 
     @Override
     public void handle(final Context context) {
-        final LocalDate localDate = LocalDate.now();
-        final List<Competition> currentCompetitions = new ArrayList<>();
-        for (final Competition competition : competitions.getAll()) {
-            final LocalDate startDate = competition.startDate();
-            if ((startDate.isBefore(localDate) || startDate.isEqual(localDate)) && localDate.plusDays(7).isAfter(startDate)) {
-                currentCompetitions.add(competition);
-            }
-        }
+        final List<Competition> currentCompetitions = competitions.getLiveCompetitions();
         if (currentCompetitions.size() == 1) {
             context.redirect("/competition/" + currentCompetitions.getFirst().id());
         } else {
