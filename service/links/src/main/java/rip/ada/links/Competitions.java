@@ -38,6 +38,7 @@ public class Competitions {
         final Map<String, Competition> updatedCompetitions = new HashMap<>();
         final Map<Sponsor, List<Competition>> updatedSponsoredCompetitions = new HashMap<>();
         for (final CompetitionInfo competitionInfo : wcaApi.getUpcomingCompetitionsInCountry(CountryCode.GB)) {
+        for (final CompetitionInfo competitionInfo : wcaApi.getUpcomingCompetitionsInCountry(CountryCode.GB, 5)) {
             final rip.ada.wcif.Competition wcif = wcaApi.getCompetitionPublic(competitionInfo.id());
             final ScrapedCompetition scrapedCompetition = wcaScraper.scrapeCompetition(competitionInfo.id());
 

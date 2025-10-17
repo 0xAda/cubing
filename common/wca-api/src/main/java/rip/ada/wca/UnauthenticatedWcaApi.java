@@ -51,9 +51,9 @@ public class UnauthenticatedWcaApi {
         }
     }
 
-    public List<CompetitionInfo> getUpcomingCompetitionsInCountry(final CountryCode countryCode) {
+    public List<CompetitionInfo> getUpcomingCompetitionsInCountry(final CountryCode countryCode, final int includingPreviousDays) {
         try {
-            final LocalDateTime oneWeekAgo = LocalDateTime.now().minusWeeks(1);
+            final LocalDateTime oneWeekAgo = LocalDateTime.now().minusDays(includingPreviousDays);
             final String isoDate = oneWeekAgo.format(DateTimeFormatter.ISO_DATE);
             final String s = "competitions?sort=start_date&start=" + isoDate + "&country_iso2=" + countryCode.getCode();
 
@@ -63,9 +63,9 @@ public class UnauthenticatedWcaApi {
         }
     }
 
-    public List<CompetitionInfo> getUpcomingCompetitionsUsingSearchTerm(final String query) {
+    public List<CompetitionInfo> getUpcomingCompetitionsUsingSearchTerm(final String query, final int includingPreviousDays) {
         try {
-            final LocalDateTime oneWeekAgo = LocalDateTime.now().minusWeeks(1);
+            final LocalDateTime oneWeekAgo = LocalDateTime.now().minusDays(includingPreviousDays);
             final String isoDate = oneWeekAgo.format(DateTimeFormatter.ISO_DATE);
             final String url = "competitions?sort=start_date&start=" + isoDate + "&q=" + URLEncoder.encode(query, StandardCharsets.UTF_8);
 
