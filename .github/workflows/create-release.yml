@@ -21,7 +21,7 @@ jobs:
                   java-version: "25"
                   distribution: "temurin"
             - name: Validate Gradle wrapper
-              uses: gradle/wrapper-validation-action@v1
+              uses: gradle/actions/wrapper-validation@v5
             - name: Set Gradle App Version to ${{ github.event.release.tag_name }}
               run: sed -i "s/version = '.*'/version = '${{ github.event.release.tag_name }}'/g" build.gradle
             - name: Publish package
