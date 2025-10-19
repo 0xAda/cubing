@@ -39,6 +39,9 @@ public class CompetitionHandler implements Handler {
                 new Link("UKCA", "https://static.ukca.org/UKCA_Logo.png", "https://ukca.org"),
                 new Link("Upcoming Competitions", "https://static.ukca.org/UKCA_Logo.png", "https://wca.ukca.org")
         ));
+        if (competition.displayIrelandLogo()) {
+            links.add(new Link("Speedcubing Ireland", "https://static.ukca.org/SI_Logo.png", "https://www.speedcubingireland.com"));
+        }
         for (final Sponsor sponsor : competition.sponsor()) {
             links.addFirst(new Link(sponsor.getName(), sponsor.getLogo(), sponsor.getWebsite()));
         }
