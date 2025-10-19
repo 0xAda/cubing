@@ -34,10 +34,10 @@ public class CompetitionHandler implements Handler {
 
         final List<Link> links = new ArrayList<>(List.of(
                 new Link("WCA Live", "https://ugc.production.linktr.ee/42084225-aa45-42e9-85e9-42d5c73a76c9_image.png?io=true&size=thumbnail-stack_v1_0", "https://live.worldcubeassociation.org/link/competitions/" + competition.id()),
-                new Link("Competing And Judging Groups", "https://ugc.production.linktr.ee/e2fd78cf-e512-4c5e-bd27-ff98f3c3e6a7_image.png?io=true&size=thumbnail-stack_v1_0", "https://competitiongroups.com/competitions/" + competition.id()),
-                new Link("WCA Competition Website", "https://ugc.production.linktr.ee/22637a84-1251-49cb-bd4c-e3545af41792_image.png?io=true&size=thumbnail-stack_v1_0", "https://www.worldcubeassociation.org/competitions/" + competition.id()),
-                new Link("UKCA", "https://ugc.production.linktr.ee/69a8928f-3d79-4dcd-a367-c7e21af55bac_image.png?io=true&size=thumbnail-stack_v1_0", "https://ukca.org"),
-                new Link("Upcoming Competitions", "https://ugc.production.linktr.ee/69a8928f-3d79-4dcd-a367-c7e21af55bac_image.png?io=true&size=thumbnail-stack_v1_0", "https://wca.ukca.org")
+                new Link("Competing And Judging Groups", "https://static.ukca.org/CompetitionGroups_Logo.png", "https://competitiongroups.com/competitions/" + competition.id()),
+                new Link("WCA Competition Website", "https://static.ukca.org/WCA_Logo.svg", "https://www.worldcubeassociation.org/competitions/" + competition.id()),
+                new Link("UKCA", "https://static.ukca.org/UKCA_Logo.png", "https://ukca.org"),
+                new Link("Upcoming Competitions", "https://static.ukca.org/UKCA_Logo.png", "https://wca.ukca.org")
         ));
         for (final Sponsor sponsor : competition.sponsor()) {
             links.addFirst(new Link(sponsor.getName(), sponsor.getLogo(), sponsor.getWebsite()));
