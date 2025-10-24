@@ -72,7 +72,7 @@ public class Competitions {
                 }
 
                 final LocalDate displayAfter = now.minusDays(5);
-                final LocalDate displayBefore = now.plusDays(2);
+                final LocalDate displayBefore = now.plusDays(4);
                 if (competition.startDate().isAfter(displayAfter) && competition.endDate().isBefore(displayBefore)) {
                     updatedLiveCompetitions.add(competition);
                 }
