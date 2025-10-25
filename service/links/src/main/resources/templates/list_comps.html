@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
-    <title></title>
+    <title>Competitions</title>
     <link rel="stylesheet"
           href="https://fonts.googleapis.com/css?family=Open+Sans:700,500,400|Raleway:700,600,500,400&amp;display=swap">
 
@@ -11,13 +11,58 @@
         body {
             text-align: center;
             max-width: 100%;
+            margin: 0;
+            padding: 20px;
+            background: #f5f5f5;
+            min-height: 100vh;
+            font-family: 'Open Sans', verdana, arial, helvetica, sans-serif;
+        }
+
+        .container {
+            max-width: 800px;
+            margin: 0 auto;
         }
 
         h1 {
             font-family: Raleway, verdana, arial, helvetica, sans-serif;
-            font-size: 2em;
+            font-size: 2.5em;
             font-weight: 700;
             color: #25346c;
+            margin-bottom: 40px;
+        }
+
+        .competitions-list {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+            gap: 20px;
+            padding: 0;
+        }
+
+        .competition-card {
+            background: white;
+            border-radius: 8px;
+            padding: 30px 20px;
+            text-decoration: none;
+            color: #25346c;
+            font-family: 'Open Sans', verdana, arial, helvetica, sans-serif;
+            font-size: 1.1em;
+            font-weight: 600;
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+            transition: box-shadow 0.2s ease;
+            display: block;
+        }
+
+        .competition-card:hover {
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.15);
+        }
+
+        .no-competitions {
+            background: white;
+            border-radius: 8px;
+            padding: 40px 20px;
+            color: #25346c;
+            font-size: 1.2em;
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
         }
 
         .link-icon img {
@@ -26,13 +71,22 @@
             max-width: 100%;
         }
 
-        .link-card {
-            text-decoration: none;
-            font-family: 'Open Sans', verdana, arial, helvetica, sans-serif;
-            color: #25346c;
-        }
-
         @media only screen and (max-width: 500px) and (orientation: portrait) {
+            h1 {
+                font-size: 1.8em;
+                margin-bottom: 30px;
+            }
+
+            .competitions-list {
+                grid-template-columns: 1fr;
+                gap: 15px;
+            }
+
+            .competition-card {
+                padding: 25px 15px;
+                font-size: 1em;
+            }
+
             .link-icon img {
                 margin-top: 25px;
                 height: 150px;
@@ -42,14 +96,21 @@
     </style>
 </head>
 <body>
-{{#if competitions}}
-    {{#each competitions}}
-    <a href="/competition/{{this.id}}">
-        <div>{{this.name}}</div>
-    </a>
-    {{/each}}
-{{else}}
-    No competitions this weekend!
-{{/if}}
+<div class="container">
+    <h1>Competitions</h1>
+    {{#if competitions}}
+    <div class="competitions-list">
+        {{#each competitions}}
+        <a href="/competition/{{this.id}}" class="competition-card">
+            <div>{{this.name}}</div>
+        </a>
+        {{/each}}
+    </div>
+    {{else}}
+    <div class="no-competitions">
+        No competitions this weekend!
+    </div>
+    {{/if}}
+</div>
 </body>
 </html>
