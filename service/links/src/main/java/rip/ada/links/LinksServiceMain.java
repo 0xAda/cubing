@@ -4,6 +4,7 @@ import com.github.jknack.handlebars.Handlebars;
 import com.github.jknack.handlebars.io.ClassPathTemplateLoader;
 import com.github.jknack.handlebars.io.TemplateLoader;
 import io.javalin.Javalin;
+import rip.ada.links.handlers.APIListHandler;
 import rip.ada.links.handlers.CompetitionHandler;
 import rip.ada.links.handlers.IndexHandler;
 import rip.ada.links.handlers.SponsoredListHandler;
@@ -36,11 +37,13 @@ public class LinksServiceMain {
 
         final IndexHandler indexHandler = new IndexHandler(competitions, handlebars.compile("list_comps"));
         final SponsoredListHandler sponsoredListHandler = new SponsoredListHandler(competitions);
+        final APIListHandler apiListHandler = new APIListHandler(competitions);
         final CompetitionHandler competitionHandler = new CompetitionHandler(competitions, handlebars.compile("competition_links"));
         Javalin.create()
                 .get("/", indexHandler)
                 .get("/competition/{competition}", competitionHandler)
                 .get("/api/sponsoredby/{sponsor}", sponsoredListHandler)
+                .get("/api/all", apiListHandler)
                 .start("0.0.0.0", 6002);
     }
 
