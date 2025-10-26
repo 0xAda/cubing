@@ -6,9 +6,7 @@ import rip.ada.wca.UnauthenticatedWcaApi;
 import rip.ada.wca.model.CompetitionInfo;
 import rip.ada.wcascraper.ScrapedCompetition;
 import rip.ada.wcascraper.WcaScraper;
-import rip.ada.wcif.CountryCode;
-import rip.ada.wcif.Event;
-import rip.ada.wcif.Schedule;
+import rip.ada.wcif.*;
 
 import java.time.LocalDate;
 import java.util.*;
@@ -40,6 +38,10 @@ public class Competitions {
         return liveCompetitions;
     }
 
+    public List<Competition> getAll() {
+        return new ArrayList<>(competitions.values());
+    }
+
     public void fetchCompetitions() {
         final LocalDate now = LocalDate.now();
 
@@ -57,14 +59,33 @@ public class Competitions {
 
                 final List<Sponsor> sponsors = getSponsors(scrapedCompetition);
 
+                int newcomers = 0;
+                int competitors = 0;
+                for (final Person person : wcif.getPersons()) {
+                    if (person.registration() != null &&
+                            person.registration().registrationStatus() == RegistrationStatus.ACCEPTED) {
+                        competitors++;
+                        if (person.wcaId() == null) {
+                            newcomers++;
+                        }
+                    }
+                }
+
                 final Schedule schedule = wcif.getSchedule();
+                final Venue venue = wcif.getSchedule().getVenues().getFirst();
                 final Competition competition = new Competition(wcif.getName(),
                         wcif.getId(),
                         isIrishComp,
                         schedule.getStartDate(),
                         schedule.getStartDate().plusDays(schedule.getNumberOfDays() - 1),
                         wcif.getEvents().stream().map(Event::eventType).toList(),
-                        sponsors);
+                        sponsors,
+                        venue.getLatitudeMicroDegrees(),
+                        venue.getLongitudeMicroDegrees(),
+                        wcif.getCompetitorLimit(),
+                        competitors,
+                        newcomers
+                        );
 
                 updatedCompetitions.put(wcif.getId(), competition);
                 for (final Sponsor sponsor : competition.sponsor()) {

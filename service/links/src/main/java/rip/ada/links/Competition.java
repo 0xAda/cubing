@@ -15,7 +15,12 @@ public record Competition(
         @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd")
         LocalDate endDate,
         List<OfficialEvent> events,
-        List<Sponsor> sponsor
+        List<Sponsor> sponsor,
+        int lat,
+        int lon,
+        int competitorLimit,
+        int registrations,
+        int newcomers
 ) {
 
 }
