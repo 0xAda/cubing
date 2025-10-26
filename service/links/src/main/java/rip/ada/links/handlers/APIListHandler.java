@@ -23,7 +23,7 @@ public class APIListHandler implements Handler {
 
     @Override
     public void handle(@NotNull final Context ctx) throws Exception {
-        final List<Competition> sponsoredComps = competitions.getLiveCompetitions();
+        final List<Competition> sponsoredComps = competitions.getAll();
         ctx.res().setHeader(Header.CONTENT_TYPE, ContentType.JSON);
         objectMapper.writeValue(ctx.res().getWriter(), sponsoredComps);
     }
