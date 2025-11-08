@@ -24,6 +24,9 @@ public class SponsoredListHandler implements Handler {
 
     @Override
     public void handle(final Context ctx) throws IOException {
+        ctx.header(Header.ACCESS_CONTROL_ALLOW_ORIGIN, "*");
+        ctx.header(Header.ACCESS_CONTROL_ALLOW_METHODS, "GET, HEAD, OPTIONS");
+
         final Sponsor sponsor = Sponsor.valueOf(ctx.pathParam("sponsor").toUpperCase(Locale.UK));
         final List<Competition> sponsoredComps = competitions.getSponsoredBy(sponsor);
         ctx.res().setHeader(Header.CONTENT_TYPE, ContentType.JSON);

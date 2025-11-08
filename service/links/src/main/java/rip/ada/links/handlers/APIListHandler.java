@@ -23,6 +23,9 @@ public class APIListHandler implements Handler {
 
     @Override
     public void handle(@NotNull final Context ctx) throws Exception {
+        ctx.header(Header.ACCESS_CONTROL_ALLOW_ORIGIN, "*");
+        ctx.header(Header.ACCESS_CONTROL_ALLOW_METHODS, "GET, HEAD, OPTIONS");
+
         final List<Competition> sponsoredComps = competitions.getAll();
         ctx.res().setHeader(Header.CONTENT_TYPE, ContentType.JSON);
         objectMapper.writeValue(ctx.res().getWriter(), sponsoredComps);
