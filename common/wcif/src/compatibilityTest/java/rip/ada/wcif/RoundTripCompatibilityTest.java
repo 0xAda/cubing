@@ -38,7 +38,8 @@ public class RoundTripCompatibilityTest {
                 Arguments.of("GlasgowSpringSBO2025"),
                 Arguments.of("FMC2024"),
                 Arguments.of("WC2023"),
-                Arguments.of("WC2025")
+                Arguments.of("WC2025"),
+                Arguments.of("GuangdongRevivalRival2026")
         );
     }
 
