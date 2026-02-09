@@ -26,7 +26,7 @@ public class WCAConfigCompatibilityTest {
 
     @Test
     public void shouldNotHaveChangedFormats() throws IOException, NoSuchAlgorithmException, InterruptedException {
-        assertUnchanged("lib/static_data/formats.json", "65e95cf0cb8656ac95f555e59115e83127e43ce6dfb1688b9851c0217a7918c7");
+        assertUnchanged("lib/static_data/formats.json", "5824bd03a03ac6c69c1b4990c503543d16024d9938e5b8cd88f34d862b12e38f");
     }
 
     @Test

@@ -1,6 +1,5 @@
 package rip.ada.wcif;
 
-import org.junit.jupiter.api.Disabled;
 import org.junit.jupiter.api.Test;
 import rip.ada.wcif.util.AssertUnchanged;
 
@@ -10,13 +9,12 @@ import java.security.NoSuchAlgorithmException;
 public class WCIFSpecificationTest {
 
     @Test
-    @Disabled("It is currently unclear which branch this test should be pointed at, disabled until that is cleared up")
     public void shouldNotHaveChangedWCIFSpec() throws IOException, NoSuchAlgorithmException, InterruptedException {
-        assertUnchanged("specification.md", "a46e19893873a31b13caa67d1077ce6889f97062d463960ac779f12675da62e1");
+        assertUnchanged("specification.md", "8f464d54c3ed95f62d13ddb87d410408841b25d6f36b15347ae61067d9558158");
     }
 
     private static void assertUnchanged(final String file, final String hash) throws IOException, NoSuchAlgorithmException, InterruptedException {
-        AssertUnchanged.assertUnchanged("https://raw.githubusercontent.com/thewca/wcif/refs/heads/master/", file, hash);
+        AssertUnchanged.assertUnchanged("https://raw.githubusercontent.com/thewca/wcif/refs/heads/stable/", file, hash);
     }
 
 }
