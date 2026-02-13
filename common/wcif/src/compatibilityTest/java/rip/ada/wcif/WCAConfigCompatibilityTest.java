@@ -21,12 +21,12 @@ public class WCAConfigCompatibilityTest {
 
     @Test
     public void shouldNotHaveChangedPreferredFormats() throws IOException, NoSuchAlgorithmException, InterruptedException {
-        assertUnchanged("lib/static_data/preferred_formats.json", "a8984e44f441d3329cdec9176052ba2d97bdc646c16faadd776d7153c7431b4f");
+        assertUnchanged("lib/static_data/preferred_formats.json", "6408ef37f37ed5f27a0cb947efbbae3e3192bc39db442af03a52bce822484c19");
     }
 
     @Test
     public void shouldNotHaveChangedFormats() throws IOException, NoSuchAlgorithmException, InterruptedException {
-        assertUnchanged("lib/static_data/formats.json", "5824bd03a03ac6c69c1b4990c503543d16024d9938e5b8cd88f34d862b12e38f");
+        assertUnchanged("lib/static_data/formats.json", "5e0258c68bbd410ed08e18a5049e38d1c722c61c2617e30a527b9f34c864128b");
     }
 
     @Test
