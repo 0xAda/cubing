@@ -82,7 +82,7 @@ public class Competitions {
                         sponsors,
                         venue.getLatitudeMicroDegrees(),
                         venue.getLongitudeMicroDegrees(),
-                        wcif.getCompetitorLimit(),
+                        wcif.getCompetitorLimit() != null ? wcif.getCompetitorLimit() : 50, // guess to not break downstream API consumers
                         competitors,
                         newcomers
                         );
