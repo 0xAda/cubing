@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Groups</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+</head>
+<body>
+<div class="min-h-screen">
+    <nav class="bg-white shadow-lg">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="flex justify-between h-16">
+                <div class="flex items-center">
+                    <span class="text-xl font-bold text-blue-600">Groups</span>
+                </div>
+                <div class="flex items-center">
+                    {% if session is not null %}
+                        <img src="{{ session.person.avatar.thumbnailUrl }}"
+                             alt="Profile picture"
+                             class="w-8 h-8 rounded-full mr-2"
+                        />
+                        <span class="text-gray-700">{{ session.person.name }}</span>
+                        <button class="signin bg-blue-500 text-white px-4 py-2 rounded-full hover:bg-blue-600 transition-all duration-300 shadow-md hover:shadow-lg ml-4"
+                                onclick="window.location.href = '/logout'">
+                            Logout
+                        </button>
+                    {% else %}
+                        <button class="signin bg-blue-500 text-white px-4 py-2 rounded-full hover:bg-blue-600 transition-all duration-300 shadow-md hover:shadow-lg"
+                                onclick="window.location.href = '/oauth/wca/start'">
+                            WCA Login
+                        </button>
+                    {% endif %}
+                </div>
+            </div>
+        </div>
+    </nav>
+
+
+    {% if messages is not null %}
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 mt-4">
+            {% for message in messages %}
+                <div class="p-4 mb-4 rounded-lg
+                    {% if message.type.name == 'SUCCESS' %}bg-green-100 text-green-700{% endif %}
+                    {% if message.type.name == 'WARNING' %}bg-yellow-100 text-yellow-700{% endif %}
+                    {% if message.type.name == 'ERROR' %}bg-red-100 text-red-700{% endif %}">
+                    {{ message.message }}
+                </div>
+            {% endfor %}
+        </div>
+    {% endif %}
+
+    <main class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
+        {% block content %}{% endblock %}
+    </main>
+</div>
+</body>
+</html>

@@ -1,0 +1,13 @@
+<!doctype html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Error</title>
+</head>
+<body>
+<h1>Something went wrong</h1>
+<h2>Include this (and what you were trying to do) when you complain to Ada:</h2>
+<pre>{{ stacktrace }}</pre>
+</body>
+</html>

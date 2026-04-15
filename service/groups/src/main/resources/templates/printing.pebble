@@ -1,0 +1,76 @@
+{% extends "base" %}
+{% block content %}
+    <div class="mb-8">
+        <div class="flex items-center justify-between">
+            <h1 class="text-3xl font-bold text-gray-900">{{ competition_name }}</h1>
+            <a href="/"
+               class="inline-flex items-center px-4 py-2 border border-transparent rounded-full shadow-sm text-sm font-medium text-white bg-blue-500 hover:bg-blue-600 hover:shadow-lg transition-all duration-300">
+                Back to Competition Page
+            </a>
+        </div>
+    </div>
+
+    <div class="mb-6">
+        <h2 class="text-2xl font-semibold text-gray-800 mb-4">Available Rounds</h2>
+
+
+        <div class="flex items-center mb-4">
+            <input type="checkbox" id="select-all"
+                   class="h-4 w-4 text-blue-600 focus:ring-blue-500 border-gray-300 rounded">
+            <label for="select-all" class="ml-3 block text-sm font-medium text-gray-700">
+                Select All Rounds
+            </label>
+        </div>
+        <script>
+            document.getElementById('select-all').addEventListener('change', function () {
+                document.querySelectorAll('input[name="rounds[]"]').forEach(checkbox => {
+                    if (checkbox.classList.contains('select-all')) {
+                        checkbox.checked = this.checked;
+                    }
+                });
+            });
+        </script>
+        <form action="/{{ competition_id }}/print" method="POST" class="space-y-4">
+            {% for round in rounds %}
+                <div class="flex items-center">
+                    <input type="checkbox" id="round-{{ round.activity_code }}" name="rounds[]" value="{{ round.activity_code }}"
+                           class="h-4 w-4 text-blue-600 focus:ring-blue-500 border-gray-300 rounded select-all">
+                    <label for="round-{{ round.activity_code }}" class="ml-3 block text-sm font-medium text-gray-700">
+                        {{ round.round_name }}
+                    </label>
+                </div>
+            {% endfor %}
+            <details>
+                <summary>
+                    Entered Rounds
+                </summary>
+                {% for round in enteredRounds %}
+                    <div class="flex items-center">
+                        <input type="checkbox" id="round-{{ round.activity_code }}" name="rounds[]"
+                               value="{{ round.activity_code }}"
+                               class="h-4 w-4 text-blue-600 focus:ring-blue-500 border-gray-300 rounded">
+                        <label for="round-{{ round.activity_code }}" class="ml-3 block text-sm font-medium text-gray-700">
+                            {{ round.round_name }}
+                        </label>
+                    </div>
+                {% endfor %}
+            </details>
+            {% for room in rooms %}
+                <div class="flex items-center">
+                    <input type="checkbox" id="room-{{ room }}" name="rooms[]" value="{{ room }}"
+                           class="h-4 w-4 text-blue-600 focus:ring-blue-500 border-gray-300 rounded select-all">
+                    <label for="room-{{ room }}" class="ml-3 block text-sm font-medium text-gray-700">
+                        {{ room }}
+                    </label>
+                </div>
+            {% endfor %}
+
+            <div class="mt-6">
+                <button type="submit"
+                        class="inline-flex items-center px-4 py-2 border border-transparent rounded-full shadow-sm text-sm font-medium text-white bg-blue-500 hover:bg-blue-600 hover:shadow-lg transition-all duration-300">
+                    Print Selected Rounds
+                </button>
+            </div>
+        </form>
+    </div>
+{% endblock %}

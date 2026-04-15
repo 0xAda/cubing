@@ -1,0 +1,50 @@
+{% extends "base" %}
+{% block content %}
+    <div class="md:flex md:items-center md:justify-between">
+        <div class="min-w-0 flex-1">
+            <h2 class="text-2xl font-bold leading-7 text-gray-900 sm:text-3xl sm:truncate">
+                Your Competitions
+            </h2>
+        </div>
+        <div class="mt-4 flex md:mt-0 md:ml-4">
+            <a href="/refreshCompetitions">
+                <button class="ml-3 inline-flex items-center px-4 py-2 border border-transparent rounded-full shadow-md text-sm font-medium text-white bg-blue-500 hover:bg-blue-600 hover:shadow-lg transition-all duration-300 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-300">
+                    Refresh Competitions
+                </button>
+            </a>
+        </div>
+    </div>
+
+    <div class="mt-8 grid gap-6 sm:grid-cols-2 lg:grid-cols-3">
+        {% for comp in session.competitions %}
+            <div class="bg-white overflow-hidden shadow-xl hover:shadow-2xl transition-all duration-300 rounded-2xl border border-blue-100">
+                <div class="p-6">
+                    <div class="flex items-center">
+                        <div class="flex-1">
+                            <h3 class="text-lg font-medium text-blue-900">{{ comp.name }}</h3>
+                            <p class="mt-1 text-sm text-gray-500">{{ comp.dateRange }}</p>
+                            <p class="mt-1 text-sm text-gray-500">{{ comp.city }}, {{ comp.country.name }}</p>
+                        </div>
+                    </div>
+                    <div class="mt-4">
+                        <button class="signin bg-blue-500 text-white px-4 py-2 rounded-full hover:bg-blue-600 transition-all duration-300 shadow-md hover:shadow-lg"
+                                onclick="window.location.href='/{{ comp.id }}'">
+                            Manage
+                        </button>
+                    </div>
+                </div>
+            </div>
+        {% endfor %}
+    </div>
+
+    <div class="hidden mt-8 text-center">
+        <svg class="mx-auto h-12 w-12 text-gray-400" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                  d="M9 5H7a2 2 0 00-2 2v12a2 2 0 002 2h10a2 2 0 002-2V7a2 2 0 00-2-2h-2M9 5a2 2 0 002 2h2a2 2 0 002-2M9 5a2 2 0 012-2h2a2 2 0 012 2"/>
+        </svg>
+        <h3 class="mt-2 text-sm font-medium text-gray-900">No competitions found</h3>
+        <p class="mt-1 text-sm text-gray-500">
+            You don't have any upcoming competitions where you're an organizer or delegate.
+        </p>
+    </div>
+{% endblock %}

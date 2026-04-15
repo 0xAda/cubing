@@ -1,0 +1,23 @@
+<!doctype html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Login With WCA</title>
+</head>
+<body>
+    <form action="/oauth/wca/start" method="post">
+        <input type="submit" value="Login with WCA" />
+    </form>
+<h1>Competition:</h1>
+<a href="/ManchesterSpring2025">Manchester Spring 2025</a><br />
+<a href="/StevenageApril2025">Stevenage April 2025</a><br />
+<a href="/ChichesterApril2025">Chichester April 2025</a><br />
+<a href="/CreweSpring2025">Crewe Spring 2025</a><br />
+<a href="/PeterboroughOddDay2025">Peterborough Odd Day 2025</a><br />
+<a href="/WestonsuperMareSpring2025">Weston-super-Mare Spring 2025</a><br />
+<a href="/ScottishChampionshipBlindOff2025">Scottish Championship Blind Off 2025</a><br />
+<a href="/CoventrySpring2025">Coventry Spring 2025</a><br />
+<a href="/SeomaraCubeFest2025">Seomara Cube Fest 2025</a><br />
+</body>
+</html>

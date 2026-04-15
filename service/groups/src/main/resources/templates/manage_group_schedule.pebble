@@ -1,0 +1,108 @@
+{% extends "base" %}
+{% block content %}
+
+    <script>
+        function toggleStages(room) {
+            const checkbox = document.getElementById(`simultaneous_${room}`);
+            const stagesDiv = document.getElementById(`stages_${room}`);
+            stagesDiv.classList.toggle('hidden', !checkbox.checked);
+        }
+
+        function addStageInput(room) {
+            const container = document.getElementById(`stages_${room}`);
+            const newInput = document.createElement('div');
+            newInput.className = 'stage-input flex items-center space-x-2';
+            newInput.innerHTML = `
+                        <input type="text" name="stages_${room}[]"
+                               class="flex-1 rounded-md border-gray-300 shadow-sm focus:border-blue-500 focus:ring-blue-500 sm:text-sm"
+                               placeholder="Stage name">
+                        <button type="button" onclick="this.parentElement.remove()"
+                                class="inline-flex items-center p-1 border border-transparent rounded-full shadow-sm text-white bg-red-500 hover:bg-red-600">
+                            <svg class="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"/>
+                            </svg>
+                        </button>
+                    `;
+            container.appendChild(newInput);
+        }
+    </script>
+    <!-- Competition Header -->
+    <div class="mb-8">
+        <div class="flex items-center justify-between">
+            <h1 class="text-3xl font-bold text-gray-900">{{ competition_name }} - Group Schedule</h1>
+            <a href="/{{ competition_id }}"
+               class="inline-flex items-center px-4 py-2 border border-transparent rounded-full shadow-sm text-sm font-medium text-white bg-blue-500 hover:bg-blue-600 hover:shadow-lg transition-all duration-300">
+                Back to Competition
+            </a>
+        </div>
+    </div>
+
+    <div class="mb-6">
+        <form action="/{{ competition_id }}/manageGroupSchedule" method="POST" class="space-y-4">
+            <div class="flex items-center space-x-6">
+                <div class="flex items-center">
+                    <input type="radio" id="waves" name="schedule_type" value="waves"
+                           class="h-4 w-4 text-blue-600 border-gray-300 focus:ring-blue-500">
+                    <label for="waves" class="ml-2 block text-sm font-medium text-gray-700">Waves</label>
+                </div>
+                <div class="flex items-center">
+                    <input type="radio" id="groups" name="schedule_type" value="groups"
+                           class="h-4 w-4 text-blue-600 border-gray-300 focus:ring-blue-500">
+                    <label for="groups" class="ml-2 block text-sm font-medium text-gray-700">Groups</label>
+                </div>
+            </div>
+
+            <div class="mt-6 space-y-4">
+                {% for room in rooms %}
+                    <div class="room-config border p-4 rounded-lg">
+                        <div class="flex items-center mb-2">
+                            <input type="checkbox" id="simultaneous_{{ room.id }}" name="simultaneous_{{ room.id }}"
+                                   class="h-4 w-4 text-blue-600 border-gray-300 focus:ring-blue-500"
+                                   onchange="toggleStages('{{ room.id }}')">
+                            <label for="simultaneous_{{ room.id }}" class="ml-2 text-sm font-medium text-gray-700">
+                                Simultaneous Stages for {{ room.name }}
+                            </label>
+                        </div>
+
+                        <div id="stages_{{ room.id }}" class="stages-container hidden ml-4 space-y-2">
+                            <div class="stage-input flex items-center space-x-2">
+                                <input type="text" name="stages_{{ room.id }}[]"
+                                       class="flex-1 rounded-md border-gray-300 shadow-sm focus:border-blue-500 focus:ring-blue-500 sm:text-sm"
+                                       placeholder="Stage name">
+                                <button type="button" onclick="addStageInput('{{ room.id }}')"
+                                        class="inline-flex items-center p-1 border border-transparent rounded-full shadow-sm text-white bg-blue-500 hover:bg-blue-600">
+                                    <svg class="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                              d="M12 6v6m0 0v6m0-6h6m-6 0H6"/>
+                                    </svg>
+                                </button>
+                            </div>
+                        </div>
+                        <div id="stages_per_{{ room.id }}" class="stages-container hidden ml-4 space-y-2">
+                            <div class="stage-input flex items-center space-x-2">
+                                <input type="text" name="stages_{{ room.id }}[]"
+                                       class="flex-1 rounded-md border-gray-300 shadow-sm focus:border-blue-500 focus:ring-blue-500 sm:text-sm"
+                                       placeholder="Stage name">
+                                <button type="button" onclick="addStageInput('{{ room.id }}')"
+                                        class="inline-flex items-center p-1 border border-transparent rounded-full shadow-sm text-white bg-blue-500 hover:bg-blue-600">
+                                    <svg class="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                              d="M12 6v6m0 0v6m0-6h6m-6 0H6"/>
+                                    </svg>
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                {% endfor %}
+            </div>
+
+            <div class="mt-6 flex justify-end">
+                <button type="submit"
+                        class="inline-flex items-center px-4 py-2 border border-transparent rounded-full shadow-sm text-sm font-medium text-white bg-blue-500 hover:bg-blue-600 hover:shadow-lg transition-all duration-300">
+                    Create Groups
+                </button>
+            </div>
+
+        </form>
+    </div>
+{% endblock %}
