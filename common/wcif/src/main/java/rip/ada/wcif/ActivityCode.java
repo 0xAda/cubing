@@ -31,6 +31,10 @@ public record ActivityCode(EventType event, Integer round, Integer group, Intege
         return stringBuilder.toString();
     }
 
+    public ActivityCode roundOnly() {
+        return new ActivityCode(event, round, null, null);
+    }
+
     @JsonCreator
     public static ActivityCode fromString(final String string) {
         if (string.startsWith("other-") && !string.startsWith("other-unofficial-")) {

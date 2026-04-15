@@ -186,4 +186,28 @@ public final class Competition {
                 "extensions=" + extensions + ']';
     }
 
+    public Activity findActivityById(final int id) {
+        for (final Venue venue : schedule.getVenues()) {
+            for (final Room room : venue.getRooms()) {
+                final Activity activity = findActivityById(id, room.activities());
+                if (activity != null) {
+                    return activity;
+                }
+            }
+        }
+        return null;
+    }
+
+    private Activity findActivityById(final int id, final List<Activity> activities) {
+        for (final Activity activity : activities) {
+            if (activity.getId() == id) {
+                return activity;
+            }
+            final Activity childActivity = findActivityById(id, activity.getChildActivities());
+            if (childActivity != null) {
+                return childActivity;
+            }
+        }
+        return null;
+    }
 }
