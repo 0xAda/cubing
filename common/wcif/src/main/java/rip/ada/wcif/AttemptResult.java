@@ -65,7 +65,7 @@ public record AttemptResult(@JsonValue int value) {
         return renderWithoutCentiseconds(time / 100);
     }
 
-    private String renderWithoutCentiseconds(final int time) {
+    public static String renderWithoutCentiseconds(final int time) {
         final int seconds = time % 60;
         final int minutes = time / 60 % 60;
         final int hours = time / 60 / 60;

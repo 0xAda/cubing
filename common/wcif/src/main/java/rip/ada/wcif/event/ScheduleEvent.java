@@ -56,6 +56,11 @@ public enum ScheduleEvent implements EventType {
         return false;
     }
 
+    @Override
+    public EventType getBaseEvent() {
+        return this;
+    }
+
     public static EventType fromString(final String eventId) {
         final ScheduleEvent scheduleEvent = ID_TO_EVENT.get(eventId);
         if (scheduleEvent != null) {

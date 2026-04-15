@@ -21,6 +21,8 @@ public interface EventType {
         return false;
     }
 
+    EventType getBaseEvent();
+
     @JsonCreator
     static EventType fromEventId(final String eventId) {
         final OfficialEvent officialEvent = OfficialEvent.fromString(eventId);

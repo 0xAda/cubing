@@ -89,6 +89,15 @@ public enum OfficialEvent implements EventType {
         return removed;
     }
 
+    @Override
+    public EventType getBaseEvent() {
+        return baseEvent;
+    }
+
+    public RoundFormat getPreferredRoundFormat() {
+        return preferredRoundFormat;
+    }
+
     public static OfficialEvent fromString(final String wcaEventId) {
         return ID_TO_EVENT.get(wcaEventId);
     }

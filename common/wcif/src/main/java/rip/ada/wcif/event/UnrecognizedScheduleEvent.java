@@ -22,4 +22,9 @@ public record UnrecognizedScheduleEvent(String eventId) implements EventType {
     public boolean isWcaEvent() {
         return false;
     }
+
+    @Override
+    public EventType getBaseEvent() {
+        return this;
+    }
 }

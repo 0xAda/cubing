@@ -1,9 +1,9 @@
 package rip.ada.wcif;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonProperty;
 
-import java.util.List;
-import java.util.Objects;
+import java.util.*;
 
 public final class Competition {
     private String formatVersion;
@@ -17,6 +17,9 @@ public final class Competition {
     private RegistrationInfo registrationInfo;
     private Integer competitorLimit;
     private List<Extension> extensions;
+
+    private volatile Map<Integer, Person> personCache = null;
+    private int nextActivityId = -1;
 
     public Competition(
             final @JsonProperty("formatVersion") String formatVersion,
@@ -186,10 +189,10 @@ public final class Competition {
                 "extensions=" + extensions + ']';
     }
 
-    public Activity findActivityById(final int id) {
+    public Activity getActivityById(final int id) {
         for (final Venue venue : schedule.getVenues()) {
             for (final Room room : venue.getRooms()) {
-                final Activity activity = findActivityById(id, room.activities());
+                final Activity activity = getActivityById(id, room.activities());
                 if (activity != null) {
                     return activity;
                 }
@@ -198,16 +201,86 @@ public final class Competition {
         return null;
     }
 
-    private Activity findActivityById(final int id, final List<Activity> activities) {
-        for (final Activity activity : activities) {
+    private Activity getActivityById(final int id, final List<Activity> activities) {
+        for (Activity activity : activities) {
             if (activity.getId() == id) {
                 return activity;
-            }
-            final Activity childActivity = findActivityById(id, activity.getChildActivities());
-            if (childActivity != null) {
-                return childActivity;
+            } else {
+                final Activity foundActivity = getActivityById(id, activity.getChildActivities());
+                if (foundActivity != null) {
+                    return foundActivity;
+                }
             }
         }
         return null;
+    }
+
+    public rip.ada.wcif.Person getPersonById(final int id) {
+        if (personCache == null) {
+            synchronized (this) {
+                if (personCache == null) {
+                    final Map<Integer, rip.ada.wcif.Person> personCache = new HashMap<>();
+                    for (final rip.ada.wcif.Person person : persons) {
+                        if (person.registrantId() != null) {
+                            personCache.put(person.registrantId(), person);
+                        }
+                    }
+                    this.personCache = personCache;
+                }
+            }
+        }
+        return personCache.get(id);
+    }
+
+    public List<Person> getPersonsRegisteredForEvent(final EventType eventType) {
+        final List<Person> persons = new ArrayList<>();
+        for (final Person person : this.getPersons()) {
+            if (person.registration() == null || person.registration().registrationStatus() != RegistrationStatus.ACCEPTED) {
+                continue;
+            }
+
+            for (final EventType event : person.registration().events()) {
+                if (event.equals(eventType)) {
+                    persons.add(person);
+                }
+            }
+        }
+
+        return persons;
+    }
+
+    @JsonIgnore
+    public List<Person> getCompetingPersons() {
+        final List<Person> persons = new ArrayList<>();
+        for (final Person person : this.getPersons()) {
+            if (person.registration() == null || person.registration().registrationStatus() != RegistrationStatus.ACCEPTED) {
+                continue;
+            }
+            persons.add(person);
+        }
+        return persons;
+    }
+
+    @JsonIgnore
+    public int getNextActivityId() {
+        if (nextActivityId == -1) {
+            int maxActivityId = -1;
+            for (final Venue venue : getSchedule().getVenues()) {
+                for (final Room room : venue.getRooms()) {
+                    maxActivityId = Math.max(maxActivityId, getMaxActivityId(room.activities()));
+                }
+            }
+            nextActivityId = maxActivityId + 1;
+        }
+        return nextActivityId++;
+    }
+
+    private int getMaxActivityId(final List<rip.ada.wcif.Activity> activities) {
+        int maxActivityId = -1;
+        for (final Activity activity : activities) {
+            maxActivityId = Math.max(maxActivityId, activity.getId());
+            maxActivityId = Math.max(maxActivityId, getMaxActivityId(activity.getChildActivities()));
+        }
+        return maxActivityId;
     }
 }

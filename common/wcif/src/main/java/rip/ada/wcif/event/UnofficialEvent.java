@@ -8,34 +8,34 @@ import java.util.Map;
 
 // Event codes from https://icons.cubing.net/
 public enum UnofficialEvent implements EventType {
-    MULTI_BLIND_OLD_STYLE("333mbo", "3x3x3 Multi-Blind Old Style"),
-    THREE_BY_THREE_WITH_FEET("333ft", "3x3x3 With Feet"),
+    MULTI_BLIND_OLD_STYLE("333mbo", "3x3x3 Multi-Blind Old Style", OfficialEvent.THREE_BY_THREE),
+    THREE_BY_THREE_WITH_FEET("333ft", "3x3x3 With Feet", OfficialEvent.THREE_BY_THREE),
     MAGIC("magic", "Magic"),
     MASTER_MAGIC("mmagic", "Master Magic"),
-    TWO_BY_TWO_BLD("222bf", "2x2x2 Blindfolded"),
-    TWO_BY_TWO_ONE_HANDED("222oh", "2x2x2 One Handed"),
+    TWO_BY_TWO_BLD("222bf", "2x2x2 Blindfolded", OfficialEvent.TWO_BY_TWO),
+    TWO_BY_TWO_ONE_HANDED("222oh", "2x2x2 One Handed", OfficialEvent.TWO_BY_TWO),
     TWO_TO_SEVEN_RELAY("234567relay", "2x2x2 to 7x7x7 Relay"),
     TWO_TO_SEVEN_RELAY_2_PERSON("234567relay_2_person", "2 Person 2x2x2 to 7x7x7 Relay"),
     TWO_TO_SIX_RELAY("23456relay", "2x2x2 to 6x6x6 Relay"),
     TWO_TO_FIVE_RELAY("2345relay", "2x2x2 to 5x5x5 Relay"),
     TWO_TO_FOUR_RELAY("234relay", "2x2x2 to 4x4x4 Relay"),
-    THREE_BY_THREE_LINEAR_FEWEST_MOVES("333_linear_fm", "3x3x3 Linear Fewest Moves"),
-    THREE_BY_THREE_MIRROR_BLOCKS("333_mirror_blocks", "3x3x3 Mirror Blocks"),
-    THREE_BY_THREE_MIRROR_BLOCKS_BLD("333_mirror_blocks_bld", "3x3x3 Mirror Blocks Blindfolded"),
-    THREE_BY_THREE_ONE_HANDED_AND_BLD_RELAY("333_oh_bld_relay", "3x3x3, 3x3x3 One Handed, and 3x3x3 Blindfolded Relay"),
-    THREE_BY_THREE_ONE_HANDED_AND_BLD_TEAM_RELAY("333_oh_bld_team_relay", "3x3x3, 3x3x3 One Handed, and 3x3x3 Blindfolded Team Relay"),
+    THREE_BY_THREE_LINEAR_FEWEST_MOVES("333_linear_fm", "3x3x3 Linear Fewest Moves", OfficialEvent.THREE_BY_THREE),
+    THREE_BY_THREE_MIRROR_BLOCKS("333_mirror_blocks", "3x3x3 Mirror Blocks", OfficialEvent.THREE_BY_THREE),
+    THREE_BY_THREE_MIRROR_BLOCKS_BLD("333_mirror_blocks_bld", "3x3x3 Mirror Blocks Blindfolded", OfficialEvent.THREE_BY_THREE),
+    THREE_BY_THREE_ONE_HANDED_AND_BLD_RELAY("333_oh_bld_relay", "3x3x3, 3x3x3 One Handed, and 3x3x3 Blindfolded Relay", OfficialEvent.THREE_BY_THREE),
+    THREE_BY_THREE_ONE_HANDED_AND_BLD_TEAM_RELAY("333_oh_bld_team_relay", "3x3x3, 3x3x3 One Handed, and 3x3x3 Blindfolded Team Relay", OfficialEvent.THREE_BY_THREE),
     THREE_BY_THREE_SIAMESE("333_siamese", "3x3x3 Siamese Cube"),
-    THREE_BY_THREE_SPEED_BLD("333_speed_bld", "3x3x3 Speed Blindfolded"),
-    THREE_BY_THREE_TEAM_BLD("333_team_bld", "3x3x3 Team Blindfolded"),
-    THREE_BY_THREE_TEAM_FACTORY("333_team_factory", "3x3x3 Team Factory"),
-    THREE_BY_THREE_BLD_2_PERSON_RELAY("333bf_2_person_relay", "3x3x3 Blindfolded 2 Person Relay"),
-    THREE_BY_THREE_BLD_3_PERSON_RELAY("333bf_3_person_relay", "3x3x3 Blindfolded 3 Person Relay"),
-    THREE_BY_THREE_BLD_4_PERSON_RELAY("333bf_4_person_relay", "3x3x3 Blindfolded 4 Person Relay"),
-    THREE_BY_THREE_BLD_8_PERSON_RELAY("333bf_8_person_relay", "3x3x3 Blindfolded 8 Person Relay"),
-    THREE_BY_THREE_MATCH_THE_SCRAMBLE("333mts", "3x3x3 Match The Scramble"),
-    FOUR_BY_FOUR_WITH_FEET("444ft", "4x4x4 With Feet"),
-    SIX_BY_SIX_BLD("666bf", "6x6x6 Blindfolded"),
-    SEVEN_BY_SEVEN_BLD("777bf", "7x7x7 Blindfolded"),
+    THREE_BY_THREE_SPEED_BLD("333_speed_bld", "3x3x3 Speed Blindfolded", OfficialEvent.THREE_BY_THREE),
+    THREE_BY_THREE_TEAM_BLD("333_team_bld", "3x3x3 Team Blindfolded", OfficialEvent.THREE_BY_THREE),
+    THREE_BY_THREE_TEAM_FACTORY("333_team_factory", "3x3x3 Team Factory", OfficialEvent.THREE_BY_THREE),
+    THREE_BY_THREE_BLD_2_PERSON_RELAY("333bf_2_person_relay", "3x3x3 Blindfolded 2 Person Relay", OfficialEvent.THREE_BY_THREE),
+    THREE_BY_THREE_BLD_3_PERSON_RELAY("333bf_3_person_relay", "3x3x3 Blindfolded 3 Person Relay", OfficialEvent.THREE_BY_THREE),
+    THREE_BY_THREE_BLD_4_PERSON_RELAY("333bf_4_person_relay", "3x3x3 Blindfolded 4 Person Relay", OfficialEvent.THREE_BY_THREE),
+    THREE_BY_THREE_BLD_8_PERSON_RELAY("333bf_8_person_relay", "3x3x3 Blindfolded 8 Person Relay", OfficialEvent.THREE_BY_THREE),
+    THREE_BY_THREE_MATCH_THE_SCRAMBLE("333mts", "3x3x3 Match The Scramble", OfficialEvent.THREE_BY_THREE),
+    FOUR_BY_FOUR_WITH_FEET("444ft", "4x4x4 With Feet", OfficialEvent.FOUR_BY_FOUR),
+    SIX_BY_SIX_BLD("666bf", "6x6x6 Blindfolded", OfficialEvent.SIX_BY_SIX),
+    SEVEN_BY_SEVEN_BLD("777bf", "7x7x7 Blindfolded", OfficialEvent.SEVEN_BY_SEVEN),
     BABY_FTO("baby_fto", "Baby Face-Turning Octahedron"),
     CURVYCOPTER("curvycopter", "Curvycopter"),
     FISHER_CUBE("fisher", "Fisher Cube"),
@@ -52,11 +52,14 @@ public enum UnofficialEvent implements EventType {
     MASTER_TETRAMINX("mtetram", "Master Tetraminx"),
     PYRAMORPHIX("pyramorphix", "Pyramorphix"),
     REDI_CUBE("redi", "Redi Cube"),
-    SQUARE_ONE_BLD("sq1_bld", "Square-1 Blindfolded");
+    SQUARE_ONE_BLD("sq1_bld", "Square-1 Blindfolded", OfficialEvent.SQUARE_ONE),
+    MYSTERY("mystery", "Mystery"),
+    RUBIKS_RELAY("rubiks_relay", "Rubik's Relay");
 
     private static final Map<String, UnofficialEvent> ID_TO_EVENT;
     private final String eventId;
     private final String friendlyName;
+    private final EventType baseEvent;
 
     static {
         final Map<String, UnofficialEvent> map = new HashMap<>();
@@ -69,6 +72,13 @@ public enum UnofficialEvent implements EventType {
     UnofficialEvent(final String eventId, final String friendlyName) {
         this.eventId = eventId;
         this.friendlyName = friendlyName;
+        this.baseEvent = this;
+    }
+
+    UnofficialEvent(final String eventId, final String friendlyName, final EventType baseEvent) {
+        this.eventId = eventId;
+        this.friendlyName = friendlyName;
+        this.baseEvent = baseEvent;
     }
 
     @Override
@@ -89,6 +99,11 @@ public enum UnofficialEvent implements EventType {
     @Override
     public boolean isWcaEvent() {
         return false;
+    }
+
+    @Override
+    public EventType getBaseEvent() {
+        return baseEvent;
     }
 
     public static UnofficialEvent fromString(final String wcaEventId) {
