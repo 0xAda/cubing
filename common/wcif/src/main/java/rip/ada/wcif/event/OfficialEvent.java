@@ -15,7 +15,7 @@ public enum OfficialEvent implements EventType {
     FIVE_BY_FIVE("555", "5x5x5 Cube", false, RoundFormat.AVERAGE_OF_FIVE),
     SIX_BY_SIX("666", "6x6x6 Cube", false, RoundFormat.MEAN_OF_THREE),
     SEVEN_BY_SEVEN("777", "7x7x7 Cube", false, RoundFormat.MEAN_OF_THREE),
-    THREE_BLIND("333bf", "3x3x3 Blindfolded", false, RoundFormat.BEST_OF_THREE, THREE_BY_THREE),
+    THREE_BLIND("333bf", "3x3x3 Blindfolded", false, RoundFormat.BEST_OF_FIVE, THREE_BY_THREE),
     FOUR_BLIND("444bf", "4x4x4 Blindfolded", false, RoundFormat.BEST_OF_THREE, FOUR_BY_FOUR),
     FIVE_BLIND("555bf", "5x5x5 Blindfolded", false, RoundFormat.BEST_OF_THREE, FIVE_BY_FIVE),
     ONE_HANDED("333oh", "3x3x3 One-Handed", false, RoundFormat.AVERAGE_OF_FIVE, THREE_BY_THREE),

@@ -9,7 +9,9 @@ public enum RoundFormat {
     BEST_OF_THREE("3", "Best of 3", "Bo3", 3, "single", "average", 0, 0, BEST_OF_ONE, BEST_OF_TWO),
     BEST_OF_FIVE("5", "Best of 5", "Bo5", 5, "single", "average", 1, 1),
     AVERAGE_OF_FIVE("a", "Average of 5", "Ao5", 5, "average", "single", 1, 1, BEST_OF_TWO),
-    MEAN_OF_THREE("m", "Mean of 3", "Mo3", 3, "average", "single", 0, 0, BEST_OF_ONE, BEST_OF_TWO);
+    MEAN_OF_THREE("m", "Mean of 3", "Mo3", 3, "average", "single", 0, 0, BEST_OF_ONE, BEST_OF_TWO),
+    HEAD_TO_HEAD("h", "Head To Head", "H2H", 5, "average", "single", 0, 0, BEST_OF_ONE),
+    ;
 
     private final String id;
     private final String name;
