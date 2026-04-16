@@ -1,7 +1,5 @@
 package rip.ada.groups.printing;
 
-import com.itextpdf.kernel.font.PdfFont;
-import com.itextpdf.kernel.font.PdfFontFactory;
 import com.itextpdf.layout.Document;
 import com.itextpdf.layout.element.Paragraph;
 import com.itextpdf.layout.element.Text;
@@ -10,28 +8,18 @@ import org.slf4j.LoggerFactory;
 import rip.ada.wcif.*;
 import rip.ada.wcif.event.OfficialEvent;
 
-import java.io.IOException;
 import java.time.Instant;
 import java.util.*;
 
 public class AssignedScramblersPrinter {
 
     private static final Logger LOGGER = LoggerFactory.getLogger(AssignedScramblersPrinter.class);
-    private static final PdfFont HELVETICA;
-
-    static {
-        try {
-            HELVETICA = PdfFontFactory.createFont("Helvetica");
-        } catch (IOException e) {
-            throw new RuntimeException(e);
-        }
-    }
 
     public void printAssignedScramblers(final Competition competition, final Document document) {
         final List<String> lines = getText(competition);
-        document.add(new Paragraph(new Text(competition.getName() + " - Assigned Round 1 Scramblers").setFont(HELVETICA).simulateBold()));
+        document.add(new Paragraph(new Text(competition.getName() + " - Assigned Round 1 Scramblers").simulateBold()));
         for (final String line : lines) {
-            document.add(new Paragraph(new Text(line).setFont(HELVETICA)));
+            document.add(new Paragraph(new Text(line)));
         }
     }
 
