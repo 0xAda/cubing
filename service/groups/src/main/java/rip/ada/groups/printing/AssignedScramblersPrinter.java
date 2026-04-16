@@ -2,8 +2,6 @@ package rip.ada.groups.printing;
 
 import com.itextpdf.kernel.font.PdfFont;
 import com.itextpdf.kernel.font.PdfFontFactory;
-import com.itextpdf.kernel.pdf.PdfDocument;
-import com.itextpdf.kernel.pdf.PdfWriter;
 import com.itextpdf.layout.Document;
 import com.itextpdf.layout.element.Paragraph;
 import com.itextpdf.layout.element.Text;
@@ -13,7 +11,6 @@ import rip.ada.wcif.*;
 import rip.ada.wcif.event.OfficialEvent;
 
 import java.io.IOException;
-import java.io.OutputStream;
 import java.time.Instant;
 import java.util.*;
 
@@ -30,16 +27,11 @@ public class AssignedScramblersPrinter {
         }
     }
 
-    public void printAssignedScramblers(final Competition competition, final OutputStream outputStream) {
-        final PdfWriter pdfWriter = new PdfWriter(outputStream);
-        final PdfDocument pdf = new PdfDocument(pdfWriter);
-
+    public void printAssignedScramblers(final Competition competition, final Document document) {
         final List<String> lines = getText(competition);
-        try (Document document = new Document(pdf)) {
-            document.add(new Paragraph(new Text(competition.getName() + " - Assigned Round 1 Scramblers").setFont(HELVETICA).simulateBold()));
-            for (final String line : lines) {
-                document.add(new Paragraph(new Text(line).setFont(HELVETICA)));
-            }
+        document.add(new Paragraph(new Text(competition.getName() + " - Assigned Round 1 Scramblers").setFont(HELVETICA).simulateBold()));
+        for (final String line : lines) {
+            document.add(new Paragraph(new Text(line).setFont(HELVETICA)));
         }
     }
 
