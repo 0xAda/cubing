@@ -5,9 +5,9 @@ import io.javalin.http.Handler;
 import rip.ada.groups.Config;
 import rip.ada.groups.session.Session;
 import rip.ada.groups.session.SessionRegistry;
-import rip.ada.groups.wca.WcaApi;
-import rip.ada.groups.wca.model.CompetitionInfo;
-import rip.ada.groups.wca.model.Person;
+import rip.ada.wca.AuthenticatedWcaApi;
+import rip.ada.wca.model.CompetitionInfo;
+import rip.ada.wca.model.Person;
 
 import java.util.List;
 import java.util.concurrent.ArrayBlockingQueue;
@@ -31,7 +31,7 @@ public class WcaOauthCallbackHandler implements Handler {
         }
 
         final Session session = sessionRegistry.createSession(oauthCode);
-        final WcaApi wcaApi = new WcaApi(config, new ArrayBlockingQueue<>(1));
+        final AuthenticatedWcaApi wcaApi = new AuthenticatedWcaApi(config.wcaApiConfig(), new ArrayBlockingQueue<>(1));
         final Person me = wcaApi.getMe(session.getWcaSession());
         session.setPerson(me);
 

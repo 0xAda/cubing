@@ -4,7 +4,7 @@ import io.javalin.http.Context;
 import io.pebbletemplates.pebble.PebbleEngine;
 import rip.ada.groups.session.AuthenticatedCompetitionHandler;
 import rip.ada.groups.session.Session;
-import rip.ada.groups.wca.WcaApi;
+import rip.ada.wca.AuthenticatedWcaApi;
 import rip.ada.wcif.*;
 
 import java.util.ArrayList;
@@ -19,7 +19,7 @@ public class PrintScorecardsMenuHandler extends AuthenticatedCompetitionHandler 
 
     private final PebbleEngine engine;
 
-    public PrintScorecardsMenuHandler(final WcaApi wcaApi, final PebbleEngine engine) {
+    public PrintScorecardsMenuHandler(final AuthenticatedWcaApi wcaApi, final PebbleEngine engine) {
         super(wcaApi);
         this.engine = engine;
     }

@@ -13,7 +13,7 @@ import rip.ada.groups.schedule.ScheduleEntry;
 import rip.ada.groups.session.AuthenticatedCompetitionHandler;
 import rip.ada.groups.session.Session;
 import rip.ada.groups.templates.Message;
-import rip.ada.groups.wca.WcaApi;
+import rip.ada.wca.AuthenticatedWcaApi;
 import rip.ada.wcif.*;
 import rip.ada.wcif.event.OfficialEvent;
 import rip.ada.wcif.event.ScheduleEvent;
@@ -59,10 +59,10 @@ public class ScheduleImportHandler extends AuthenticatedCompetitionHandler {
             Map.entry("FMC", OfficialEvent.FMC)
     );
     static int index = 1;
-    private final WcaApi wcaApi;
+    private final AuthenticatedWcaApi wcaApi;
     private final PebbleEngine engine;
 
-    public ScheduleImportHandler(final WcaApi wcaApi, final PebbleEngine engine) {
+    public ScheduleImportHandler(final AuthenticatedWcaApi wcaApi, final PebbleEngine engine) {
         super(wcaApi);
         this.wcaApi = wcaApi;
         this.engine = engine;

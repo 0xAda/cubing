@@ -5,7 +5,7 @@ import io.pebbletemplates.pebble.PebbleEngine;
 import rip.ada.groups.session.AuthenticatedCompetitionHandler;
 import rip.ada.groups.session.Session;
 import rip.ada.groups.templates.Message;
-import rip.ada.groups.wca.WcaApi;
+import rip.ada.wca.AuthenticatedWcaApi;
 import rip.ada.wcif.Competition;
 import rip.ada.wcif.Person;
 
@@ -16,10 +16,10 @@ import static rip.ada.groups.templates.Templates.render;
 
 public class ClearAssignmentsHandler extends AuthenticatedCompetitionHandler {
 
-    private final WcaApi wcaApi;
+    private final AuthenticatedWcaApi wcaApi;
     private final PebbleEngine engine;
 
-    public ClearAssignmentsHandler(final WcaApi wcaApi, final PebbleEngine engine) {
+    public ClearAssignmentsHandler(final AuthenticatedWcaApi wcaApi, final PebbleEngine engine) {
         super(wcaApi);
         this.wcaApi = wcaApi;
         this.engine = engine;

@@ -7,7 +7,7 @@ import rip.ada.groups.schedule.GroupScheduleGenerator;
 import rip.ada.groups.schedule.ScheduleType;
 import rip.ada.groups.session.AuthenticatedCompetitionHandler;
 import rip.ada.groups.session.Session;
-import rip.ada.groups.wca.WcaApi;
+import rip.ada.wca.AuthenticatedWcaApi;
 import rip.ada.wcif.Competition;
 import rip.ada.wcif.Venue;
 
@@ -20,9 +20,9 @@ import static rip.ada.groups.templates.Templates.render;
 public class ManageGroupScheduleHandler extends AuthenticatedCompetitionHandler {
 
     private final PebbleEngine engine;
-    private final WcaApi wcaApi;
+    private final AuthenticatedWcaApi wcaApi;
 
-    public ManageGroupScheduleHandler(final WcaApi wcaApi, final PebbleEngine engine) {
+    public ManageGroupScheduleHandler(final AuthenticatedWcaApi wcaApi, final PebbleEngine engine) {
         super(wcaApi);
         this.engine = engine;
         this.wcaApi = wcaApi;

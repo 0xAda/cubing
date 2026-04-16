@@ -1,5 +1,7 @@
 package rip.ada.groups;
 
+import rip.ada.wca.WcaApiConfig;
+
 import java.io.IOException;
 import java.io.InputStream;
 import java.util.Properties;
@@ -35,5 +37,9 @@ public record Config(String wcaUrl, String wcaClientId, String wcaClientSecret, 
 
     public String getOauthRedirectUri() {
         return externalUrl() + "/oauth/wca/callback";
+    }
+
+    public WcaApiConfig wcaApiConfig() {
+        return new WcaApiConfig(wcaUrl(), wcaClientId(), wcaClientSecret(), getOauthRedirectUri());
     }
 }

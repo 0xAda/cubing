@@ -5,7 +5,7 @@ import io.pebbletemplates.pebble.PebbleEngine;
 import rip.ada.groups.session.AuthenticatedCompetitionHandler;
 import rip.ada.groups.session.Session;
 import rip.ada.groups.templates.Message;
-import rip.ada.groups.wca.WcaApi;
+import rip.ada.wca.AuthenticatedWcaApi;
 import rip.ada.wcif.Activity;
 import rip.ada.wcif.Competition;
 import rip.ada.wcif.Room;
@@ -20,9 +20,9 @@ import static rip.ada.groups.templates.Templates.render;
 public class ClearGroupScheduleHandler extends AuthenticatedCompetitionHandler {
 
     private final PebbleEngine engine;
-    private final WcaApi wcaApi;
+    private final AuthenticatedWcaApi wcaApi;
 
-    public ClearGroupScheduleHandler(final WcaApi wcaApi, final PebbleEngine engine) {
+    public ClearGroupScheduleHandler(final AuthenticatedWcaApi wcaApi, final PebbleEngine engine) {
         super(wcaApi);
         this.engine = engine;
         this.wcaApi = wcaApi;

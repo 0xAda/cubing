@@ -1,7 +1,7 @@
 package rip.ada.groups.session;
 
-import rip.ada.groups.wca.OauthApi;
-import rip.ada.groups.wca.OauthSession;
+import rip.ada.wca.OauthApi;
+import rip.ada.wca.OauthSession;
 
 import java.util.Map;
 import java.util.UUID;

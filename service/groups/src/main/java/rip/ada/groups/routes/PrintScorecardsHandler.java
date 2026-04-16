@@ -10,7 +10,7 @@ import rip.ada.groups.scorecards.ScorecardPrinter;
 import rip.ada.groups.scorecards.ScorecardSet;
 import rip.ada.groups.session.AuthenticatedCompetitionHandler;
 import rip.ada.groups.session.Session;
-import rip.ada.groups.wca.WcaApi;
+import rip.ada.wca.AuthenticatedWcaApi;
 import rip.ada.wcif.ActivityCode;
 import rip.ada.wcif.Competition;
 
@@ -25,7 +25,7 @@ public class PrintScorecardsHandler extends AuthenticatedCompetitionHandler {
     private final PebbleEngine engine;
     private final Generator scorecardGenerator = new Generator();
 
-    public PrintScorecardsHandler(final WcaApi wcaApi, final PebbleEngine engine) {
+    public PrintScorecardsHandler(final AuthenticatedWcaApi wcaApi, final PebbleEngine engine) {
         super(wcaApi);
         this.engine = engine;
     }

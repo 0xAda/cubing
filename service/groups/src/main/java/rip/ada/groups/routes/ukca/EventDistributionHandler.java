@@ -5,8 +5,8 @@ import io.pebbletemplates.pebble.PebbleEngine;
 import rip.ada.groups.report.Report;
 import rip.ada.groups.session.AuthenticatedHandler;
 import rip.ada.groups.session.Session;
-import rip.ada.groups.wca.WcaApi;
-import rip.ada.groups.wca.model.CompetitionInfo;
+import rip.ada.wca.AuthenticatedWcaApi;
+import rip.ada.wca.model.CompetitionInfo;
 import rip.ada.wcif.Competition;
 import rip.ada.wcif.Event;
 import rip.ada.wcif.Venue;
@@ -34,9 +34,9 @@ public class EventDistributionHandler extends AuthenticatedHandler {
             new CompRegion("Weston", -5.9737, 49.7927, -1.1706, 51.7759)
     );
     private final PebbleEngine engine;
-    private final WcaApi wcaApi;
+    private final AuthenticatedWcaApi wcaApi;
 
-    public EventDistributionHandler(final PebbleEngine engine, final WcaApi wcaApi) {
+    public EventDistributionHandler(final PebbleEngine engine, final AuthenticatedWcaApi wcaApi) {
         this.engine = engine;
         this.wcaApi = wcaApi;
     }

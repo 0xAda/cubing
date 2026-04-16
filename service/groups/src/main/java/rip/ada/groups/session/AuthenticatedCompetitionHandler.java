@@ -2,8 +2,8 @@ package rip.ada.groups.session;
 
 import io.javalin.http.Context;
 import io.javalin.http.HandlerType;
-import rip.ada.groups.wca.WcaApi;
 import rip.ada.groups.wcalive.WcaLiveData;
+import rip.ada.wca.AuthenticatedWcaApi;
 import rip.ada.wcif.Competition;
 
 import java.time.Instant;
@@ -14,9 +14,9 @@ import static rip.ada.groups.templates.Templates.model;
 public abstract class AuthenticatedCompetitionHandler extends AuthenticatedHandler {
 
     private static final Set<HandlerType> UNCACHED_METHODS = Set.of(HandlerType.POST, HandlerType.PATCH, HandlerType.PUT);
-    private final WcaApi wcaApi;
+    private final AuthenticatedWcaApi wcaApi;
 
-    public AuthenticatedCompetitionHandler(final WcaApi wcaApi) {
+    public AuthenticatedCompetitionHandler(final AuthenticatedWcaApi wcaApi) {
         this.wcaApi = wcaApi;
     }
 

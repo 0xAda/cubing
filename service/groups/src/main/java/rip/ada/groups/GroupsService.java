@@ -18,12 +18,12 @@ import rip.ada.groups.routes.ukca.UKCAHandler;
 import rip.ada.groups.session.SessionHandler;
 import rip.ada.groups.session.SessionRegistry;
 import rip.ada.groups.templates.Templates;
-import rip.ada.groups.wca.OauthApi;
-import rip.ada.groups.wca.WcaApi;
-import rip.ada.groups.wca.patcher.WcifPatchRequest;
-import rip.ada.groups.wca.patcher.WcifPatcher;
 import rip.ada.groups.wcalive.WcaLiveApi;
 import rip.ada.groups.wcalive.WcaLiveData;
+import rip.ada.wca.AuthenticatedWcaApi;
+import rip.ada.wca.OauthApi;
+import rip.ada.wca.patcher.WcifPatchRequest;
+import rip.ada.wca.patcher.WcifPatcher;
 
 import java.util.concurrent.ArrayBlockingQueue;
 import java.util.concurrent.Executors;
@@ -43,9 +43,9 @@ public class GroupsService {
     public void start() {
         final ScheduledExecutorService executorService = Executors.newScheduledThreadPool(4);
         final PebbleEngine engine = Templates.create();
-        final SessionRegistry sessionRegistry = new SessionRegistry(new OauthApi(config));
+        final SessionRegistry sessionRegistry = new SessionRegistry(new OauthApi(config.wcaApiConfig()));
         final ArrayBlockingQueue<WcifPatchRequest> wcifPatchRequests = new ArrayBlockingQueue<>(1000);
-        final WcaApi wcaApi = new WcaApi(config, wcifPatchRequests);
+        final AuthenticatedWcaApi wcaApi = new AuthenticatedWcaApi(config.wcaApiConfig(), wcifPatchRequests);
         final ReportRegistry reportRegistry = new ReportRegistry();
         final WcaLiveApi wcaLiveApi = new WcaLiveApi();
         final WcaLiveData wcaLiveData = new WcaLiveData(wcaLiveApi);

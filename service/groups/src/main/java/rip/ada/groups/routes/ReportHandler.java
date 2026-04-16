@@ -7,7 +7,7 @@ import rip.ada.groups.report.ReportGenerator;
 import rip.ada.groups.report.ReportRegistry;
 import rip.ada.groups.session.AuthenticatedCompetitionHandler;
 import rip.ada.groups.session.Session;
-import rip.ada.groups.wca.WcaApi;
+import rip.ada.wca.AuthenticatedWcaApi;
 import rip.ada.wcif.Competition;
 
 import java.util.List;
@@ -20,7 +20,7 @@ public class ReportHandler extends AuthenticatedCompetitionHandler {
     private final PebbleEngine engine;
     private final ReportRegistry reportRegistry;
 
-    public ReportHandler(final WcaApi wcaApi, final PebbleEngine engine, final ReportRegistry reportRegistry) {
+    public ReportHandler(final AuthenticatedWcaApi wcaApi, final PebbleEngine engine, final ReportRegistry reportRegistry) {
         super(wcaApi);
         this.engine = engine;
         this.reportRegistry = reportRegistry;

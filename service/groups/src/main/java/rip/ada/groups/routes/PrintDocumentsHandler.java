@@ -12,7 +12,7 @@ import rip.ada.groups.printing.AssignedScramblersPrinter;
 import rip.ada.groups.printing.GroupSchedulePrinter;
 import rip.ada.groups.session.AuthenticatedCompetitionHandler;
 import rip.ada.groups.session.Session;
-import rip.ada.groups.wca.WcaApi;
+import rip.ada.wca.AuthenticatedWcaApi;
 import rip.ada.wcif.Competition;
 
 import java.io.ByteArrayOutputStream;
@@ -22,7 +22,7 @@ public class PrintDocumentsHandler extends AuthenticatedCompetitionHandler {
     private final AssignedScramblersPrinter assignedScramblersPrinter = new AssignedScramblersPrinter();
     private final GroupSchedulePrinter groupSchedulePrinter = new GroupSchedulePrinter();
 
-    public PrintDocumentsHandler(final WcaApi wcaApi) {
+    public PrintDocumentsHandler(final AuthenticatedWcaApi wcaApi) {
         super(wcaApi);
     }
 

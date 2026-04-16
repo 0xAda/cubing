@@ -1,10 +1,10 @@
 package rip.ada.groups.session;
 
 import com.google.api.client.googleapis.auth.oauth2.GoogleCredential;
-import rip.ada.groups.wca.OauthSession;
-import rip.ada.groups.wca.WcaApi;
-import rip.ada.groups.wca.model.CompetitionInfo;
-import rip.ada.groups.wca.model.Person;
+import rip.ada.wca.AuthenticatedWcaApi;
+import rip.ada.wca.OauthSession;
+import rip.ada.wca.model.CompetitionInfo;
+import rip.ada.wca.model.Person;
 import rip.ada.wcif.Competition;
 
 import java.time.Instant;
@@ -70,7 +70,7 @@ public class Session {
         cachedCompetitions.put(competitionId, new CachedCompetition(competition, Instant.now()));
     }
 
-    public Competition getStaleCachedCompetition(final String competitionId, final WcaApi wcaApi) {
+    public Competition getStaleCachedCompetition(final String competitionId, final AuthenticatedWcaApi wcaApi) {
         final CachedCompetition cachedCompetition = cachedCompetitions.get(competitionId);
         if (cachedCompetition == null) {
             cacheCompetition(competitionId, wcaApi.getCompetition(oauthSession, competitionId));

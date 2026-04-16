@@ -5,7 +5,7 @@ import io.pebbletemplates.pebble.PebbleEngine;
 import rip.ada.groups.session.AuthenticatedCompetitionHandler;
 import rip.ada.groups.session.Session;
 import rip.ada.groups.warnings.CompetitionWarnings;
-import rip.ada.groups.wca.WcaApi;
+import rip.ada.wca.AuthenticatedWcaApi;
 import rip.ada.groups.wcalive.WcaLiveData;
 import rip.ada.wcif.Competition;
 
@@ -21,7 +21,7 @@ public class CompetitionHandler extends AuthenticatedCompetitionHandler {
     private final WcaLiveData wcaLiveData;
     private final CompetitionWarnings competitionWarnings;
 
-    public CompetitionHandler(final WcaApi wcaApi, final PebbleEngine engine, final WcaLiveData wcaLiveData) {
+    public CompetitionHandler(final AuthenticatedWcaApi wcaApi, final PebbleEngine engine, final WcaLiveData wcaLiveData) {
         super(wcaApi);
         this.engine = engine;
         this.wcaLiveData = wcaLiveData;
