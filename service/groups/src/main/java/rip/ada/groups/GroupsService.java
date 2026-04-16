@@ -71,6 +71,7 @@ public class GroupsService {
         app.get("/{competition}/manageGroupSchedule", manageGroupScheduleHandler);
         app.post("/{competition}/manageGroupSchedule", manageGroupScheduleHandler);
         app.post("/{competition}/print", new PrintScorecardsHandler(wcaApi, engine));
+        app.post("/{competition}/printDocuments", new PrintDocumentsHandler(wcaApi));
         app.get("/{competition}/scorecardPrinting", new PrintScorecardsMenuHandler(wcaApi, engine));
         app.get("/{competition}/reports", new ReportsHandler(wcaApi, engine, reportRegistry));
         app.get("/{competition}/ukca", new UKCAHandler(wcaApi, engine));

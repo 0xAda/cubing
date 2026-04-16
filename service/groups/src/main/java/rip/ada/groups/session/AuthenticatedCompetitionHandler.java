@@ -16,7 +16,7 @@ public abstract class AuthenticatedCompetitionHandler extends AuthenticatedHandl
     private static final Set<HandlerType> UNCACHED_METHODS = Set.of(HandlerType.POST, HandlerType.PATCH, HandlerType.PUT);
     private final WcaApi wcaApi;
 
-    protected AuthenticatedCompetitionHandler(final WcaApi wcaApi) {
+    public AuthenticatedCompetitionHandler(final WcaApi wcaApi) {
         this.wcaApi = wcaApi;
     }
 

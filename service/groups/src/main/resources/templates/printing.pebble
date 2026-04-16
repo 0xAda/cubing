@@ -73,4 +73,23 @@
             </div>
         </form>
     </div>
+    <div class="mb-6">
+        <h2 class="text-2xl font-semibold text-gray-800 mb-4">Document Printing</h2>
+        <form action="/{{ competition_id }}/printDocuments" method="POST" class="space-y-4">
+            <div class="flex items-center">
+                <input type="checkbox" id="assignedScramblers" name="assignedScramblers" value="1"
+                       class="h-4 w-4 text-blue-600 focus:ring-blue-500 border-gray-300 rounded select-all">
+                <label for="assignedScramblers" class="ml-3 block text-sm font-medium text-gray-700">
+                        Assigned Round 1 Scramblers
+                </label>
+            </div>
+
+            <div class="mt-6">
+                <button type="submit"
+                        class="inline-flex items-center px-4 py-2 border border-transparent rounded-full shadow-sm text-sm font-medium text-white bg-blue-500 hover:bg-blue-600 hover:shadow-lg transition-all duration-300">
+                    Print Documents
+                </button>
+            </div>
+        </form>
+    </div>
 {% endblock %}
