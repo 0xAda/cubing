@@ -40,7 +40,6 @@ public class PrintDocumentsHandler extends AuthenticatedCompetitionHandler {
                 assignedScramblersPrinter.printAssignedScramblers(competition, document);
             }
 
-
             if (ctx.formParam("groupSchedule") != null) {
                 if (hasPrinted) {
                     document.add(new AreaBreak(AreaBreakType.NEXT_PAGE));
