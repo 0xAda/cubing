@@ -212,7 +212,7 @@ public class GroupSchedulePrinter {
     private record NonCompetingEvent(String event, ZonedDateTime time) implements GroupScheduleEvent {
         @Override
         public void addRows(final Table table) {
-            table.addCell(new Cell(1, 6).add(new Paragraph(new Text(event)))).setTextAlignment(TextAlignment.LEFT);
+            table.addCell(new Cell(1, 6).add(new Paragraph(new Text(event))).setTextAlignment(TextAlignment.LEFT));
             table.addCell(time.format(DATE_TIME_FORMATTER)).setTextAlignment(TextAlignment.CENTER);
             table.addCell("");
         }
