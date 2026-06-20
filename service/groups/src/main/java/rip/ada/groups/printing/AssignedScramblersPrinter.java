@@ -72,7 +72,7 @@ public class AssignedScramblersPrinter {
         }
         eventStartTimes.sort(Comparator.comparing(eventStartTime -> eventStartTime.startTime));
 
-        return eventStartTimes.stream().map(EventStartTime::officialEvent).toList();
+        return eventStartTimes.stream().map(EventStartTime::officialEvent).distinct().toList();
     }
 
     private record EventStartTime(Instant startTime, OfficialEvent officialEvent) {

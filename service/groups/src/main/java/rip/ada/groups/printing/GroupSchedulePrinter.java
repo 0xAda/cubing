@@ -8,6 +8,7 @@ import com.itextpdf.layout.properties.VerticalAlignment;
 import rip.ada.wcif.*;
 import rip.ada.wcif.event.ScheduleEvent;
 
+import java.time.Instant;
 import java.time.LocalDate;
 import java.time.ZoneId;
 import java.time.ZonedDateTime;
@@ -43,15 +44,20 @@ public class GroupSchedulePrinter {
 
             final List<GroupScheduleEvent> events = new ArrayList<>();
             final Set<ActivityCode> processedRounds = new HashSet<>();
+            final Set<ScheduleEventKey> processedScheduleEvents = new HashSet<>();
             boolean wsapPhotoInserted = false;
 
             for (final Activity activity : allActivitiesForDay) {
                 final ActivityCode code = activity.getActivityCode();
                 if (code.event() instanceof ScheduleEvent se) {
+                    final ZonedDateTime startTime = activity.getStartTime().atZone(zoneId);
+                    if (!processedScheduleEvents.add(new ScheduleEventKey(activity.getName(), activity.getStartTime()))) {
+                        continue;
+                    }
                     if (se == ScheduleEvent.AWARDS) {
                         events.add(new TextEvent("Dele Photo"));
                     }
-                    events.add(new NonCompetingEvent(activity.getName(), activity.getStartTime().atZone(zoneId)));
+                    events.add(new NonCompetingEvent(activity.getName(), startTime));
                 } else if (code.event().isCompetingEvent()) {
                     if (!processedRounds.contains(code)) {
                         processedRounds.add(code);
@@ -198,6 +204,9 @@ public class GroupSchedulePrinter {
         return count;
     }
 
+    private record ScheduleEventKey(String name, Instant startTime) {
+    }
+
     private interface GroupScheduleEvent {
         void addRows(Table table);
     }
@@ -221,7 +230,7 @@ public class GroupSchedulePrinter {
     private record CompetingEvent(String event, int stages, String progress, int competitorsPerGroup, int groups, List<ZonedDateTime> startTimes) implements GroupScheduleEvent {
         @Override
         public void addRows(final Table table) {
-            final int height = Math.max(1, stages * groups);
+            final int height = Math.max(1, groups);
             table.addCell(new Cell(height, 1).add(new Paragraph(new Text(event))).setVerticalAlignment(VerticalAlignment.MIDDLE));
             table.addCell(new Cell(height, 1).add(new Paragraph(new Text(String.valueOf(stages)))).setVerticalAlignment(VerticalAlignment.MIDDLE));
             table.addCell(new Cell(height, 1).add(new Paragraph(new Text(""))));
