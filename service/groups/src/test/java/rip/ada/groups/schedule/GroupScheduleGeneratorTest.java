@@ -334,12 +334,22 @@ public class GroupScheduleGeneratorTest {
 
     public Round round(final String activityCodeString, final int scrambleSets) {
         final ActivityCode activityCode = ActivityCode.fromString(activityCodeString);
+        final ParticipationRuleset participationRuleset;
+        if (activityCode.round() != null && activityCode.round() > 1) {
+            final ActivityCode previous = new ActivityCode(activityCode.event(), activityCode.round() - 1, null, null);
+            participationRuleset = new ParticipationRuleset(
+                    new RoundParticipationSource(previous, new PercentResultCondition(ResultType.AVERAGE, 75)),
+                    null);
+        } else {
+            participationRuleset = new ParticipationRuleset(new RegistrationsParticipationSource(), null);
+        }
         return new Round(
                 activityCode,
                 RoundFormat.AVERAGE_OF_FIVE,
                 null,
                 null,
-                new PercentAdvancementCondition(75),
+                null,
+                participationRuleset,
                 new ArrayList<>(),
                 scrambleSets,
                 null,

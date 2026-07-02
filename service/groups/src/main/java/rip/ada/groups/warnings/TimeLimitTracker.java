@@ -1,7 +1,7 @@
 package rip.ada.groups.warnings;
 
 import rip.ada.wcif.ActivityCode;
-import rip.ada.wcif.AttemptResult;
+import rip.ada.wcif.ResultValue;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -19,7 +19,7 @@ public class TimeLimitTracker {
         this.cumulativeTimeLimit = cumulativeTimeLimit;
     }
 
-    public void addResult(final int personId, final AttemptResult result) {
+    public void addResult(final int personId, final ResultValue result) {
         if (!result.isSuccess()) {
             return;
         }

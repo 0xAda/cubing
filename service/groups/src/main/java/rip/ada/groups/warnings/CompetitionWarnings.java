@@ -9,7 +9,7 @@ import java.util.List;
 import java.util.Map;
 
 import static rip.ada.groups.templates.Joiner.join;
-import static rip.ada.wcif.AttemptResult.renderWithoutCentiseconds;
+import static rip.ada.wcif.ResultValue.renderWithoutCentiseconds;
 
 public class CompetitionWarnings {
 

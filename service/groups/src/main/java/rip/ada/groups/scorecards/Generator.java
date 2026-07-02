@@ -51,7 +51,7 @@ public class Generator {
                                             round.cutoff(),
                                             round.timeLimit(),
                                             round.format(),
-                                            needsDoubleCheck(person, event.eventType(), competition, round),
+                                            needsDoubleCheck(person, event, competition, round),
                                             Objects.equals(person.wcaId(), "2022KILG02") || Objects.equals(person.wcaId(), "2020LONG05"),
                                             assignment.stationNumber()
                                     ));
@@ -73,11 +73,11 @@ public class Generator {
                                     .anyMatch(personalBest ->
                                             personalBest.type() == (event.eventType().getPreferredRoundFormat().getSortBy().equals("average") ? ResultType.AVERAGE : ResultType.SINGLE) &&
                                                     personalBest.event() == event.eventType() &&
-                                                    personalBest.best().isSuccess()))
+                                                    personalBest.value().isSuccess()))
                     .sorted(Comparator.comparingInt(person -> person.personalBests().stream().filter(personalBest ->
                             personalBest.type() == (event.eventType().getPreferredRoundFormat().getSortBy().equals("average") ? ResultType.AVERAGE : ResultType.SINGLE) &&
                                     personalBest.event() == event.eventType()
-                    ).map(personalBest -> personalBest.best().value()).findFirst().orElse(Integer.MAX_VALUE))).toList();
+                    ).map(personalBest -> personalBest.value().value()).findFirst().orElse(Integer.MAX_VALUE))).toList();
             final int ranking = rankings.indexOf(competition.getPersonById(personId));
             if (ranking == -1) {
                 return rankings.size();
@@ -96,12 +96,13 @@ public class Generator {
         return 0;
     }
 
-    private boolean needsDoubleCheck(final Person person, final EventType eventType, final Competition competition, final Round round) {
+    private boolean needsDoubleCheck(final Person person, final Event event, final Competition competition, final Round round) {
+        final EventType eventType = event.eventType();
         if (eventType == OfficialEvent.SIX_BY_SIX || eventType == OfficialEvent.SEVEN_BY_SEVEN || eventType == OfficialEvent.MEGAMINX) {
             return false;
         }
 
-        if (round.advancementCondition() == null && competition.getName().contains("Championship")) { //TODO: Grab this info from somewhere else, maybe configurable
+        if (event.isFinalRound(round) && competition.getName().contains("Championship")) { //TODO: Grab this info from somewhere else, maybe configurable
             return true;
         }
         for (final PersonalBest personalBest : person.personalBests()) {

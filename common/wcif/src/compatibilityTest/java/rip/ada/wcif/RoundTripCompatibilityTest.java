@@ -2,6 +2,7 @@ package rip.ada.wcif;
 
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
+import com.fasterxml.jackson.databind.node.ObjectNode;
 import com.fasterxml.jackson.datatype.jsr310.JavaTimeModule;
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.Arguments;
@@ -39,7 +40,8 @@ public class RoundTripCompatibilityTest {
                 Arguments.of("FMC2024"),
                 Arguments.of("WC2023"),
                 Arguments.of("WC2025"),
-                Arguments.of("GuangdongRevivalRival2026")
+                Arguments.of("GuangdongRevivalRival2026"),
+                Arguments.of("ManchesterCLFinal2026")
         );
     }
 
@@ -62,7 +64,25 @@ public class RoundTripCompatibilityTest {
         final String write = OBJECT_MAPPER.writeValueAsString(read);
         final JsonNode jsonNodeFromCompetition = OBJECT_MAPPER.readTree(write);
 
+        unfuckPBs(jsonNodeFromSource);
+
         assertJsonEquals(jsonNodeFromSource, jsonNodeFromCompetition, competition);
+    }
+
+    private static void unfuckPBs(final JsonNode node) {
+        if (node.isArray()) {
+            node.forEach(RoundTripCompatibilityTest::unfuckPBs);
+        } else if (node instanceof ObjectNode objectNode) {
+            final JsonNode personalBests = objectNode.get("personalBests");
+            if (personalBests != null && personalBests.isArray()) {
+                for (final JsonNode personalBest : personalBests) {
+                    if (personalBest instanceof ObjectNode pbNode && pbNode.has("best") && !pbNode.has("value")) {
+                        pbNode.set("value", pbNode.remove("best"));
+                    }
+                }
+            }
+            objectNode.forEach(RoundTripCompatibilityTest::unfuckPBs);
+        }
     }
 
     private static void assertJsonEquals(final JsonNode expected, final JsonNode actual, final String competition) throws IOException {
@@ -75,7 +95,7 @@ public class RoundTripCompatibilityTest {
 
     private String getCompetitionJson(final String competitionId) {
         try {
-            final HttpRequest request = HttpRequest.newBuilder(URI.create("https://www.worldcubeassociation.org/api/v0/competitions/" + competitionId + "/wcif/public")).GET().build();
+            final HttpRequest request = HttpRequest.newBuilder(URI.create("https://www.worldcubeassociation.org/api/v0/competitions/" + competitionId + "/wcif/version/" + WcifVersion.CURRENT)).GET().build();
             final HttpResponse<String> response = HTTP_CLIENT.send(request, HttpResponse.BodyHandlers.ofString());
             if (response.statusCode() != 200) {
                 throw new RuntimeException("Got error response from WCA, status " + response.statusCode() + ". Error: " + response.body());

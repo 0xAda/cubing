@@ -3,7 +3,7 @@ package rip.ada.wcif;
 import com.fasterxml.jackson.annotation.JsonCreator;
 import com.fasterxml.jackson.annotation.JsonValue;
 
-public record AttemptResult(@JsonValue int value) {
+public record ResultValue(@JsonValue int value) {
 
     public boolean isSuccess() {
         return value > 0;
@@ -76,8 +76,8 @@ public record AttemptResult(@JsonValue int value) {
     }
 
     @JsonCreator
-    public static AttemptResult fromInt(final int value) {
-        return new AttemptResult(value);
+    public static ResultValue fromInt(final int value) {
+        return new ResultValue(value);
     }
 
 }

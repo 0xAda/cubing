@@ -143,7 +143,7 @@ public class ScorecardPrinter {
         y -= spacing + height;
 
         if (scorecard.cutoff() != null) {
-            drawText(content, HELVETICA, 10, minX + 10, y, "Cutoff: <" + scorecard.cutoff().attemptResult());
+            drawText(content, HELVETICA, 10, minX + 10, y, "Cutoff: <" + scorecard.cutoff().resultValue());
         }
 
         if (scorecard.timeLimit() != null) {

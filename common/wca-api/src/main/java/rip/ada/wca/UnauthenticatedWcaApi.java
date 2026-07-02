@@ -9,6 +9,7 @@ import rip.ada.wca.model.CompetitionInfo;
 import rip.ada.wca.model.PersonWithCompetitionList;
 import rip.ada.wcif.Competition;
 import rip.ada.wcif.CountryCode;
+import rip.ada.wcif.WcifVersion;
 
 import java.io.IOException;
 import java.net.URI;
@@ -43,7 +44,7 @@ public class UnauthenticatedWcaApi {
 
     public Competition getCompetitionPublic(final String id) {
         try {
-            final HttpRequest request = get("competitions/" + id + "/wcif/public");
+            final HttpRequest request = get("competitions/" + id + "/wcif/version/" + WcifVersion.CURRENT);
             final String body = httpClient.send(request, HttpResponse.BodyHandlers.ofString()).body();
             return objectMapper.readValue(body, Competition.class);
         } catch (IOException | InterruptedException e) {

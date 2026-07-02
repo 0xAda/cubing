@@ -7,6 +7,7 @@ import rip.ada.wca.model.Me;
 import rip.ada.wca.model.Person;
 import rip.ada.wca.patcher.WcifPatchRequest;
 import rip.ada.wcif.Competition;
+import rip.ada.wcif.WcifVersion;
 
 import java.io.IOException;
 import java.net.URI;
@@ -55,7 +56,7 @@ public class AuthenticatedWcaApi extends UnauthenticatedWcaApi {
 
     public Competition getCompetition(final OauthSession session, final String id) {
         try {
-            final HttpRequest request = authenticatedGet(session, "competitions/" + id + "/wcif");
+            final HttpRequest request = authenticatedGet(session, "competitions/" + id + "/wcif/version/" + WcifVersion.CURRENT);
             final String body = httpClient.send(request, HttpResponse.BodyHandlers.ofString()).body();
             return objectMapper.registerModule(new JavaTimeModule()).readValue(body, Competition.class);
         } catch (IOException | InterruptedException e) {

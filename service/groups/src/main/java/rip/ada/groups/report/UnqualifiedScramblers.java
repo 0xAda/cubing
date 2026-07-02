@@ -33,14 +33,15 @@ public class UnqualifiedScramblers implements ReportGenerator {
             if (!event.eventType().equals(eventType.getBaseEvent())) {
                 continue;
             }
+            final ResultCondition resultCondition = event.qualification().resultCondition();
             for (final PersonalBest personalBest : person.personalBests()) {
-                if (personalBest.event().equals(event.eventType()) && personalBest.type().equals(event.qualification().resultType())) {
-                    return switch (event.qualification().type()) {
-                        case ATTEMPT_RESULT ->
-                                personalBest.best().isSuccess() && personalBest.best().value() < event.qualification().level().value();
-                        case RANKING ->
-                                personalBest.best().isSuccess() && personalBest.nationalRanking() != 0 && personalBest.worldRanking() < event.qualification().level().value();
-                        case ANY_RESULT -> personalBest.best().isSuccess();
+                if (personalBest.event().equals(event.eventType()) && personalBest.type().equals(resultCondition.scope())) {
+                    return switch (resultCondition) {
+                        case ResultAchievedCondition achieved -> personalBest.value().isSuccess()
+                                && (achieved.value() == null || personalBest.value().value() < achieved.value().value());
+                        case RankingResultCondition ranking -> personalBest.value().isSuccess()
+                                && personalBest.nationalRanking() != 0 && personalBest.worldRanking() < ranking.value();
+                        default -> false;
                     };
                 }
             }

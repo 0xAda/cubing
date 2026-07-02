@@ -18,7 +18,7 @@ public class Finalists implements ReportGenerator {
         final List<Report> reports = new ArrayList<>();
         for (final Event event : competition.getEvents()) {
             for (final Round round : event.rounds()) {
-                if (round.advancementCondition() == null) {
+                if (event.isFinalRound(round)) {
                     if (round.roundNumber() == 1) {
                         continue;
                     }

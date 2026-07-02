@@ -136,24 +136,22 @@ public class GroupSchedulePrinter {
                 .findFirst().orElse(null) : null;
 
         final String eventName = roundCode.event().getFriendlyName() + " Round " + roundCode.round();
-        final String progress = getProgressString(round);
+        final String progress = getProgressString(event, round);
         final int competitorCount = calculateCompetitorCount(competition, roundCode, event);
         final int competitorsPerGroup = totalGroups > 0 ? competitorCount / totalGroups : 0;
 
         return new CompetingEvent(eventName, stages, progress, competitorsPerGroup, totalGroups, startTimes);
     }
 
-    private String getProgressString(final Round round) {
-        if (round == null || round.advancementCondition() == null) {
+    private String getProgressString(final Event event, final Round round) {
+        if (event == null || round == null) {
             return "";
         }
-        if (round.advancementCondition() instanceof PercentAdvancementCondition(int percent)) {
-            return percent + "%";
-        }
-        if (round.advancementCondition() instanceof RankingAdvancementCondition(int ranking)) {
-            return String.valueOf(ranking);
-        }
-        return "";
+        return switch (event.resultConditionAdvancingFrom(round)) {
+            case PercentResultCondition percent -> percent.value() + "%";
+            case RankingResultCondition ranking -> String.valueOf(ranking.value());
+            case null, default -> "";
+        };
     }
 
     private int calculateCompetitorCount(final Competition competition, final ActivityCode roundCode, final Event event) {
@@ -167,7 +165,7 @@ public class GroupSchedulePrinter {
             if (roundIndex >= event.rounds().size()) {
                 break;
             }
-            final AdvancementCondition condition = event.rounds().get(roundIndex).advancementCondition();
+            final ResultCondition condition = event.resultConditionAdvancingFrom(event.rounds().get(roundIndex));
             count = applyAdvancement(count, condition);
         }
         return count;
@@ -194,14 +192,12 @@ public class GroupSchedulePrinter {
         return count;
     }
 
-    private int applyAdvancement(final int count, final AdvancementCondition condition) {
-        if (condition instanceof PercentAdvancementCondition(int percent)) {
-            return (int) Math.ceil(count * percent / 100.0);
-        }
-        if (condition instanceof RankingAdvancementCondition(int ranking)) {
-            return Math.min(count, ranking);
-        }
-        return count;
+    private int applyAdvancement(final int count, final ResultCondition condition) {
+        return switch (condition) {
+            case PercentResultCondition percent -> (int) Math.ceil(count * percent.value() / 100.0);
+            case RankingResultCondition ranking -> Math.min(count, ranking.value());
+            case null, default -> count;
+        };
     }
 
     private record ScheduleEventKey(String name, Instant startTime) {

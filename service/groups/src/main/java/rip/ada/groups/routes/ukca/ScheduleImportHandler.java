@@ -122,6 +122,7 @@ public class ScheduleImportHandler extends AuthenticatedCompetitionHandler {
         final int progressionIndex = firstRow.indexOf("Progression");
 
         final Map<OfficialEvent, List<Round>> rounds = new HashMap<>();
+        final Map<ActivityCode, ResultCondition> progressions = new HashMap<>();
         final List<ScheduleEntry> scheduleEntries = new ArrayList<>();
 
         for (int i = 1; i < rows.size(); i++) {
@@ -190,17 +191,29 @@ public class ScheduleImportHandler extends AuthenticatedCompetitionHandler {
                         }
                     }
 
-                    rounds.computeIfAbsent(oe, x -> new ArrayList<>()).add(new Round(
+                    final List<Round> eventRounds = rounds.computeIfAbsent(oe, _ -> new ArrayList<>());
+                    final ParticipationRuleset participationRuleset;
+                    if (eventRounds.isEmpty()) {
+                        participationRuleset = new ParticipationRuleset(new RegistrationsParticipationSource(), null);
+                    } else {
+                        final Round previousRound = eventRounds.get(eventRounds.size() - 1);
+                        participationRuleset = new ParticipationRuleset(
+                                new RoundParticipationSource(previousRound.activityCode(), progressions.get(previousRound.activityCode())),
+                                null);
+                    }
+                    eventRounds.add(new Round(
                             activityCode,
                             oe.getPreferredRoundFormat(),
                             parseTimeLimit(timeLimitIndex, row, activityCode, cumulativeRounds),
                             parseCutoff(cutoffIndex, row, oe.getPreferredRoundFormat()),
-                            parseAdvancementCondition(progressionIndex, row),
+                            null,
+                            participationRuleset,
                             List.of(),
                             Integer.parseInt(groups),
                             List.of(),
                             List.of()
                     ));
+                    progressions.put(activityCode, parseResultCondition(progressionIndex, row, oe.getPreferredRoundFormat()));
                 }
 
                 scheduleEntries.add(new ScheduleEntry(eventType, roundNumber, startTime, endTime));
@@ -246,15 +259,16 @@ public class ScheduleImportHandler extends AuthenticatedCompetitionHandler {
         render(engine, "ukca", ctx);
     }
 
-    private AdvancementCondition parseAdvancementCondition(final int rowIndex, final List<Object> row) {
+    private ResultCondition parseResultCondition(final int rowIndex, final List<Object> row, final RoundFormat roundFormat) {
         if (rowIndex == -1 || row.get(rowIndex).toString().isBlank()) {
             return null;
         }
-        final String advancementCondition = row.get(rowIndex).toString();
-        if (advancementCondition.endsWith("%")) {
-            return new PercentAdvancementCondition(Integer.parseInt(advancementCondition.split("%")[0]));
+        final ResultType scope = roundFormat.getSortBy().equals("average") ? ResultType.AVERAGE : ResultType.SINGLE;
+        final String progression = row.get(rowIndex).toString();
+        if (progression.endsWith("%")) {
+            return new PercentResultCondition(scope, Integer.parseInt(progression.split("%")[0]));
         }
-        return new RankingAdvancementCondition(Integer.parseInt(advancementCondition));
+        return new RankingResultCondition(scope, Integer.parseInt(progression));
     }
 
     private Cutoff parseCutoff(final int rowIndex, final List<Object> row, final RoundFormat roundFormat) {
@@ -263,7 +277,7 @@ public class ScheduleImportHandler extends AuthenticatedCompetitionHandler {
         }
         final int attemptCount = roundFormat.getAllowedFirstPhaseFormats()[0].getSolveCount();
         final int targetTime = timeToCentiseconds(row.get(rowIndex).toString());
-        return new Cutoff(attemptCount, new AttemptResult(targetTime));
+        return new Cutoff(attemptCount, new ResultValue(targetTime));
     }
 
     private TimeLimit parseTimeLimit(final int rowIndex, final List<Object> row, final ActivityCode currentRound, final ActivityCode... cumulativeRounds) {
@@ -271,7 +285,7 @@ public class ScheduleImportHandler extends AuthenticatedCompetitionHandler {
             return null;
         }
         if (rowIndex == -1) {
-            return new TimeLimit(new AttemptResult(100), List.of());
+            return new TimeLimit(new ResultValue(100), List.of());
         }
         final String timeLimit = (String) row.get(rowIndex);
         if (timeLimit.endsWith(" Cumulative")) {
@@ -279,9 +293,9 @@ public class ScheduleImportHandler extends AuthenticatedCompetitionHandler {
             final List<ActivityCode> cumulativeRoundsList = new ArrayList<>();
             cumulativeRoundsList.add(currentRound);
             cumulativeRoundsList.addAll(List.of(cumulativeRounds));
-            return new TimeLimit(new AttemptResult(time), cumulativeRoundsList);
+            return new TimeLimit(new ResultValue(time), cumulativeRoundsList);
         }
-        return new TimeLimit(new AttemptResult(timeToCentiseconds(timeLimit)), List.of());
+        return new TimeLimit(new ResultValue(timeToCentiseconds(timeLimit)), List.of());
     }
 
     private int timeToCentiseconds(final String time) {

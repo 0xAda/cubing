@@ -10,11 +10,11 @@ public class WCIFSpecificationTest {
 
     @Test
     public void shouldNotHaveChangedWCIFSpec() throws IOException, NoSuchAlgorithmException, InterruptedException {
-        assertUnchanged("specification.md", "8f464d54c3ed95f62d13ddb87d410408841b25d6f36b15347ae61067d9558158");
+        assertUnchanged("specification.md", "772dadebd2b382c14d4754df4ebf4ae2c8a54c65716a98a8fd1a4422f6a10b0f");
     }
 
     private static void assertUnchanged(final String file, final String hash) throws IOException, NoSuchAlgorithmException, InterruptedException {
-        AssertUnchanged.assertUnchanged("https://raw.githubusercontent.com/thewca/wcif/refs/heads/stable/", file, hash);
+        AssertUnchanged.assertUnchanged("https://raw.githubusercontent.com/thewca/wcif/refs/heads/latest/", file, hash);
     }
 
 }
