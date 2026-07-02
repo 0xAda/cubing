@@ -2,6 +2,9 @@ package rip.ada.wca;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.core.type.TypeReference;
+import com.fasterxml.jackson.core.util.DefaultIndenter;
+import com.fasterxml.jackson.core.util.DefaultPrettyPrinter;
+import com.fasterxml.jackson.core.util.Separators;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.node.ObjectNode;
 import com.fasterxml.jackson.datatype.jsr310.JavaTimeModule;
@@ -93,6 +96,15 @@ public class UnauthenticatedWcaApi {
 
     public <T> String serialize(final T body) throws JsonProcessingException {
         return objectMapper.writeValueAsString(body);
+    }
+
+    public <T> String serializePretty(final T body) throws JsonProcessingException {
+        final DefaultPrettyPrinter printer = new DefaultPrettyPrinter()
+                .withSeparators(Separators.createDefaultInstance()
+                        .withObjectFieldValueSpacing(Separators.Spacing.AFTER));
+
+        printer.indentArraysWith(DefaultIndenter.SYSTEM_LINEFEED_INSTANCE);
+        return objectMapper.writer(printer).writeValueAsString(body);
     }
 
     public <T> ObjectNode serializeNode(final T body) throws JsonProcessingException {

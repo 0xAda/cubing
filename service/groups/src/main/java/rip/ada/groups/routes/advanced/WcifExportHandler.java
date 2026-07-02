@@ -19,7 +19,7 @@ public class WcifExportHandler extends AuthenticatedCompetitionHandler {
 
     @Override
     public void handle(final Competition competition, final Session session, final Context ctx) throws Exception {
-        final String output = wcaApi.serialize(competition);
+        final String output = wcaApi.serializePretty(competition);
         ctx.contentType(ContentType.APPLICATION_JSON);
         ctx.header(Header.CONTENT_DISPOSITION, "attachment; filename=\"" + competition.getId() + ".json\"");
         ctx.result(output);

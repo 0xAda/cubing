@@ -69,6 +69,18 @@
     </div>
 
     <div class="mb-8">
+        <h2 class="text-xl font-semibold mb-4">Export Redacted WCIF</h2>
+        <form action="/{{ competition_id }}/advanced/wcifExportRedacted" method="POST" enctype="multipart/form-data" class="space-y-4">
+            <div class="flex items-center space-x-4">
+                <button type="submit"
+                        class="inline-flex items-center px-4 py-2 border border-transparent rounded-full shadow-sm text-sm font-medium text-white bg-blue-500 hover:bg-blue-600 hover:shadow-lg transition-all duration-300">
+                    Export Redacted WCIF
+                </button>
+            </div>
+        </form>
+    </div>
+
+    <div class="mb-8">
         <h2 class="text-xl font-semibold mb-4">Clear Group Assignments</h2>
         <form action="/{{ competition_id }}/advanced/clearAssignments" method="POST" enctype="multipart/form-data" class="space-y-4">
             <div class="flex items-center space-x-4">

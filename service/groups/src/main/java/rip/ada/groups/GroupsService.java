@@ -80,6 +80,7 @@ public class GroupsService {
         app.get("/{competition}/advanced", new AdvancedHandler(wcaApi, engine));
         app.post("/{competition}/advanced/wcifImport", new WcifImportHandler(wcaApi, engine));
         app.post("/{competition}/advanced/wcifExport", new WcifExportHandler(wcaApi));
+        app.post("/{competition}/advanced/wcifExportRedacted", new RedactedWcifExportHandler(wcaApi));
         app.post("/{competition}/advanced/clearGroupSchedule", new ClearGroupScheduleHandler(wcaApi, engine));
         app.post("/{competition}/advanced/clearSchedule", new ClearScheduleHandler(wcaApi, engine));
         app.post("/{competition}/advanced/clearAssignments", new ClearAssignmentsHandler(wcaApi, engine));
