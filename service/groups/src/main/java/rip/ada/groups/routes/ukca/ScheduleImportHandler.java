@@ -83,6 +83,12 @@ public class ScheduleImportHandler extends AuthenticatedCompetitionHandler {
             return;
         }
 
+        if (competition.getSchedule().getVenues().isEmpty()) {
+            model(ctx).put("messages", List.of(new Message("Competition has no venues.", Message.Type.ERROR)));
+            render(engine, "ukca", ctx);
+            return;
+        }
+
         final String spreadsheetUrl = ctx.formParam("spreadsheet_url");
         final String spreadsheetId = spreadsheetUrl.split("/spreadsheets/d/")[1].split("/")[0];
 
