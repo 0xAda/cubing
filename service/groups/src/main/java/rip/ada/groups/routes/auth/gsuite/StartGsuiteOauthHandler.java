@@ -19,9 +19,10 @@ public class StartGsuiteOauthHandler extends AuthenticatedHandler {
 
     @Override
     public void handle(final Session session, final Context ctx) {
+        final String comp = ctx.queryParam("comp");
         final String authUrl = new GoogleAuthorizationCodeRequestUrl(
                 config.gsuiteClientId(), config.gsuiteRedirectUrl(), List.of(SheetsScopes.SPREADSHEETS_READONLY)
-        ).setAccessType("offline").build();
+        ).setAccessType("offline").setState(comp).build();
         ctx.redirect(authUrl);
     }
 }

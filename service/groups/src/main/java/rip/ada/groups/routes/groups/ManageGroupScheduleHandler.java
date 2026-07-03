@@ -42,7 +42,7 @@ public class ManageGroupScheduleHandler extends AuthenticatedCompetitionHandler 
         } else {
             new GroupScheduleGenerator().generate(competition, ScheduleType.WAVES);
             wcaApi.updateCompetition(session.getWcaSession(), competition);
-            ctx.redirect("/");
+            ctx.redirect("/" + competition.getId());
         }
     }
 

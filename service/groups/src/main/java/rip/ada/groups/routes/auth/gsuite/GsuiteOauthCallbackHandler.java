@@ -52,6 +52,13 @@ public class GsuiteOauthCallbackHandler extends AuthenticatedHandler {
                 .setFromTokenResponse(tokenResponse);
 
         session.setGoogleCredential(credential);
-        ctx.redirect("/");
+        ctx.redirect(urlFromComp(ctx.queryParam("state")));
+    }
+
+    private static String urlFromComp(final String comp) {
+        if (comp == null || !comp.matches("[a-zA-Z0-9]*")) {
+            return "/";
+        }
+        return "/" + comp + "/ukca";
     }
 }
