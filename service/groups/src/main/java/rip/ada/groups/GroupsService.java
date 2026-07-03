@@ -83,6 +83,7 @@ public class GroupsService {
         app.post("/{competition}/advanced/wcifExportRedacted", new RedactedWcifExportHandler(wcaApi));
         app.post("/{competition}/advanced/clearGroupSchedule", new ClearGroupScheduleHandler(wcaApi, engine));
         app.post("/{competition}/advanced/clearSchedule", new ClearScheduleHandler(wcaApi, engine));
+        app.post("/{competition}/advanced/cloneSchedule", new CloneScheduleHandler(wcaApi, engine));
         app.post("/{competition}/advanced/clearAssignments", new ClearAssignmentsHandler(wcaApi, engine));
         app.post("/{competition}/generateGroups", new GenerateGroupsHandler(wcaApi, engine));
 

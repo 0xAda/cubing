@@ -96,4 +96,20 @@
         </form>
     </div>
 
+    <div class="mb-8">
+        <h2 class="text-xl font-semibold mb-4">Clone Schedule From Another Comp</h2>
+        <form action="/{{ competition_id }}/advanced/cloneSchedule" method="POST" enctype="multipart/form-data" class="space-y-4">
+            <div class="flex items-center space-x-4">
+                <input type="text"
+                       name="otherComp"
+                       class="block w-full text-sm text-gray-500"
+                       placeholder="Other Comp Id (e.g. KewbzUKChampionship2026)"/>
+                <button type="submit"
+                        class="inline-flex items-center px-4 py-2 border border-transparent rounded-full shadow-sm text-sm font-medium text-white bg-blue-500 hover:bg-blue-600 hover:shadow-lg transition-all duration-300">
+                    Clone
+                </button>
+            </div>
+        </form>
+    </div>
+
 {% endblock %}
