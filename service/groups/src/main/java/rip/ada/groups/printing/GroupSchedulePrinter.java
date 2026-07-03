@@ -239,11 +239,15 @@ public class GroupSchedulePrinter {
                 return;
             }
             for (int i = 0; i < groups; i++) {
-                final boolean isFirstGroupInWave = i % stages == 0;
                 table.addCell(new Cell().add(new Paragraph(new Text(String.valueOf(i + 1)))).setTextAlignment(TextAlignment.CENTER).setVerticalAlignment(VerticalAlignment.MIDDLE));
-                if (isFirstGroupInWave) {
-                    table.addCell(new Cell(stages, 1).add(new Paragraph(new Text(startTimes.get(i).format(DATE_TIME_FORMATTER)))).setTextAlignment(TextAlignment.CENTER).setVerticalAlignment(VerticalAlignment.MIDDLE));
-                    table.addCell(new Cell(stages, 1).add(new Paragraph(new Text(""))));
+                final boolean startsNewWave = i == 0 || !startTimes.get(i).equals(startTimes.get(i - 1));
+                if (startsNewWave) {
+                    int waveSize = 1;
+                    while (i + waveSize < groups && startTimes.get(i + waveSize).equals(startTimes.get(i))) {
+                        waveSize++;
+                    }
+                    table.addCell(new Cell(waveSize, 1).add(new Paragraph(new Text(startTimes.get(i).format(DATE_TIME_FORMATTER)))).setTextAlignment(TextAlignment.CENTER).setVerticalAlignment(VerticalAlignment.MIDDLE));
+                    table.addCell(new Cell(waveSize, 1).add(new Paragraph(new Text(""))));
                 }
                 table.startNewRow();
             }
