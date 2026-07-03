@@ -65,6 +65,68 @@ public class GroupScheduleGeneratorTest {
     }
 
     @Test
+    public void shouldGenerateSimultaneousMultiStageGroupsNumberedAsGroups() {
+        final GroupScheduleGenerator groupScheduleGenerator = new GroupScheduleGenerator();
+        final Competition testComp = competition(schedule(venue(
+                        "Venue",
+                        room(
+                                "Room 1",
+                                "red",
+                                activity("333-r1", "10:00:00", "10:40:00")
+                        ),
+                        room(
+                                "Room 2",
+                                "red",
+                                activity("333-r1", "10:00:00", "10:40:00")
+                        )
+                )),
+                event(OfficialEvent.THREE_BY_THREE,
+                        round("333-r1", 2)));
+        groupScheduleGenerator.generate(testComp, ScheduleType.GROUPS);
+
+        assertGroupSchedule(testComp, "Room 1", OfficialEvent.THREE_BY_THREE, 1,
+                group(1, "10:00:00", "10:20:00"),
+                group(3, "10:20:00", "10:40:00")
+        );
+        assertGroupSchedule(testComp, "Room 2", OfficialEvent.THREE_BY_THREE, 1,
+                group(2, "10:00:00", "10:20:00"),
+                group(4, "10:20:00", "10:40:00")
+        );
+    }
+
+    @Test
+    public void shouldGenerateSimultaneousMultiStageGroupsNumberedAsGroupsWithLongTail() {
+        final GroupScheduleGenerator groupScheduleGenerator = new GroupScheduleGenerator();
+        final Competition testComp = competition(schedule(venue(
+                        "Venue",
+                        room(
+                                "Room 1",
+                                "red",
+                                activity("333-r1", "10:00:00", "10:40:00")
+                        ),
+                        room(
+                                "Room 2",
+                                "red",
+                                activity("333-r1", "10:00:00", "11:20:00")
+                        )
+                )),
+                event(OfficialEvent.THREE_BY_THREE,
+                        round("333-r1", 2)));
+        groupScheduleGenerator.generate(testComp, ScheduleType.GROUPS);
+
+        assertGroupSchedule(testComp, "Room 1", OfficialEvent.THREE_BY_THREE, 1,
+                group(1, "10:00:00", "10:20:00"),
+                group(3, "10:20:00", "10:40:00")
+        );
+        assertGroupSchedule(testComp, "Room 2", OfficialEvent.THREE_BY_THREE, 1,
+                group(2, "10:00:00", "10:20:00"),
+                group(4, "10:20:00", "10:40:00"),
+                group(5, "10:40:00", "11:00:00"),
+                group(6, "11:00:00", "11:20:00")
+        );
+    }
+
+    @Test
     public void shouldGenerateSimultaneousMultiStageGroupsWithDifferentEndTimes() {
         final GroupScheduleGenerator groupScheduleGenerator = new GroupScheduleGenerator();
         final Competition testComp = competition(schedule(venue(

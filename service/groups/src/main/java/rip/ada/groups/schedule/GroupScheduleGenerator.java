@@ -5,12 +5,20 @@ import rip.ada.wcif.event.OfficialEvent;
 
 import java.time.Duration;
 import java.time.Instant;
+import java.util.ArrayList;
+import java.util.Comparator;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Optional;
 import java.util.Set;
 
 public class GroupScheduleGenerator {
+
+    private record GroupTimeRange(Instant startTime, Instant endTime) {
+    }
+
+    private record PendingGroup(Activity parent, Instant startTime, Instant endTime) {
+    }
 
     private static int calculateGroupCount(final double groupsFittingInTime) {
         if (groupsFittingInTime % 1 == 0 || groupsFittingInTime < 1) {
@@ -40,11 +48,14 @@ public class GroupScheduleGenerator {
     private void createGroupsForRound(final Competition competition, final ScheduleType scheduleType, final ActivityCode activityCode, final int scrambleSetCount) {
         Instant earliestTime = Instant.MAX;
         Instant latestTime = Instant.MIN;
+        Duration shortestActivityDuration = null;
         final Set<Instant> endTimes = new HashSet<>();
+        final List<Activity> matchingActivities = new ArrayList<>();
         for (final Venue venue : competition.getSchedule().getVenues()) {
             for (final Room room : venue.getRooms()) {
                 for (final Activity activity : room.activities()) {
                     if (activity.getActivityCode().equals(activityCode)) {
+                        matchingActivities.add(activity);
                         if (earliestTime.isAfter(activity.getStartTime())) {
                             earliestTime = activity.getStartTime();
                         }
@@ -53,6 +64,10 @@ public class GroupScheduleGenerator {
                         }
                         endTimes.add(activity.getEndTime());
                         endTimes.add(activity.getStartTime());
+                        final Duration activityDuration = Duration.between(activity.getStartTime(), activity.getEndTime());
+                        if (shortestActivityDuration == null || activityDuration.compareTo(shortestActivityDuration) < 0) {
+                            shortestActivityDuration = activityDuration;
+                        }
                     }
                 }
             }
@@ -62,42 +77,83 @@ public class GroupScheduleGenerator {
             throw new RuntimeException("Failed to determine start times for group " + activityCode);
         }
 
+        if (scheduleType == ScheduleType.GROUPS) {
+            generateGroupsForIndividuallyNumberedGroups(competition, activityCode, scrambleSetCount, shortestActivityDuration, matchingActivities, endTimes);
+        } else {
+            generateGroupsForWaves(competition, activityCode, scrambleSetCount, earliestTime, latestTime, matchingActivities, endTimes);
+        }
+    }
+
+    private void generateGroupsForWaves(final Competition competition,
+                                        final ActivityCode activityCode,
+                                        final int scrambleSetCount,
+                                        final Instant earliestTime,
+                                        final Instant latestTime,
+                                        final List<Activity> matchingActivities,
+                                        final Set<Instant> endTimes) {
         final Duration totalEventDuration = Duration.between(earliestTime, latestTime);
         final Duration averageTimePerGroup = totalEventDuration.dividedBy(scrambleSetCount);
 
-        for (final Venue venue : competition.getSchedule().getVenues()) {
-            for (final Room room : venue.getRooms()) {
-                for (final Activity activity : room.activities()) {
-                    if (activity.getActivityCode().equals(activityCode)) {
-                        final Duration activityLength = Duration.between(activity.getStartTime(), activity.getEndTime());
-                        final double groupsFittingInTime = (double) activityLength.toNanos() / averageTimePerGroup.toNanos();
-                        final int groupCount = calculateGroupCount(groupsFittingInTime);
-                        final Duration timePerGroup = activityLength.dividedBy(groupCount);
-                        Instant currentStartTime = activity.getStartTime();
-                        for (int i = 1; i <= groupCount; i++) {
-                            final Instant estimatedGroupEndTime = i != groupCount ? currentStartTime.plus(timePerGroup) : activity.getEndTime();
-                            final Optional<Instant> maybeNearbyEndTime = endTimes.stream().filter(activityEndTime -> Duration.between(activityEndTime, estimatedGroupEndTime).abs().compareTo(Duration.ofMinutes(6)) <= 0).findAny();
-                            final Instant groupEndTime;
-                            groupEndTime = maybeNearbyEndTime.orElse(estimatedGroupEndTime);
-                            endTimes.add(groupEndTime);
-                            final ActivityCode groupCode = new ActivityCode(activity.getActivityCode().event(), activity.getActivityCode().round(), i, activity.getActivityCode().attempt());
-                            final Activity e = new Activity(
-                                    competition.getNextActivityId(),
-                                    groupCode.getDisplayName(),
-                                    groupCode,
-                                    currentStartTime,
-                                    groupEndTime,
-                                    List.of(),
-                                    null,
-                                    List.of()
-                            );
-                            activity.getChildActivities().add(e);
-                            currentStartTime = groupEndTime;
-                        }
-                    }
-                }
+        for (final Activity activity : matchingActivities) {
+            final List<GroupTimeRange> ranges = computeGroupTimeRanges(activity, averageTimePerGroup, endTimes);
+            for (int i = 0; i < ranges.size(); i++) {
+                final GroupTimeRange range = ranges.get(i);
+                addGroupActivity(competition, activity, activityCode, i + 1, range.startTime(), range.endTime());
             }
         }
+    }
+
+    private void generateGroupsForIndividuallyNumberedGroups(final Competition competition,
+                                                             final ActivityCode activityCode,
+                                                             final int scrambleSetCount,
+                                                             final Duration shortestActivityDuration,
+                                                             final List<Activity> matchingActivities,
+                                                             final Set<Instant> endTimes) {
+        final Duration averageTimePerGroup = shortestActivityDuration.dividedBy(scrambleSetCount);
+        final List<PendingGroup> pendingGroups = new ArrayList<>();
+        for (final Activity activity : matchingActivities) {
+            for (final GroupTimeRange range : computeGroupTimeRanges(activity, averageTimePerGroup, endTimes)) {
+                pendingGroups.add(new PendingGroup(activity, range.startTime(), range.endTime()));
+            }
+        }
+        pendingGroups.sort(Comparator.comparing(PendingGroup::startTime));
+        for (int i = 0; i < pendingGroups.size(); i++) {
+            final PendingGroup pendingGroup = pendingGroups.get(i);
+            addGroupActivity(competition, pendingGroup.parent(), activityCode, i + 1, pendingGroup.startTime(), pendingGroup.endTime());
+        }
+    }
+
+    private List<GroupTimeRange> computeGroupTimeRanges(final Activity activity, final Duration averageTimePerGroup, final Set<Instant> endTimes) {
+        final Duration activityLength = Duration.between(activity.getStartTime(), activity.getEndTime());
+        final double groupsFittingInTime = (double) activityLength.toNanos() / averageTimePerGroup.toNanos();
+        final int groupCount = calculateGroupCount(groupsFittingInTime);
+        final Duration timePerGroup = activityLength.dividedBy(groupCount);
+        final List<GroupTimeRange> ranges = new ArrayList<>();
+        Instant currentStartTime = activity.getStartTime();
+        for (int i = 1; i <= groupCount; i++) {
+            final Instant estimatedGroupEndTime = i != groupCount ? currentStartTime.plus(timePerGroup) : activity.getEndTime();
+            final Optional<Instant> maybeNearbyEndTime = endTimes.stream().filter(activityEndTime -> Duration.between(activityEndTime, estimatedGroupEndTime).abs().compareTo(Duration.ofMinutes(6)) <= 0).findAny();
+            final Instant groupEndTime = maybeNearbyEndTime.orElse(estimatedGroupEndTime);
+            endTimes.add(groupEndTime);
+            ranges.add(new GroupTimeRange(currentStartTime, groupEndTime));
+            currentStartTime = groupEndTime;
+        }
+        return ranges;
+    }
+
+    private void addGroupActivity(final Competition competition, final Activity parent, final ActivityCode activityCode, final int group, final Instant startTime, final Instant endTime) {
+        final ActivityCode groupCode = new ActivityCode(activityCode.event(), activityCode.round(), group, activityCode.attempt());
+        final Activity e = new Activity(
+                competition.getNextActivityId(),
+                groupCode.getDisplayName(),
+                groupCode,
+                startTime,
+                endTime,
+                List.of(),
+                null,
+                List.of()
+        );
+        parent.getChildActivities().add(e);
     }
 
 }

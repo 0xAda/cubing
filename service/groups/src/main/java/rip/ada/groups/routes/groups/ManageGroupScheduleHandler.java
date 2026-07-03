@@ -40,7 +40,8 @@ public class ManageGroupScheduleHandler extends AuthenticatedCompetitionHandler 
             model(ctx).put("rooms", rooms);
             render(engine, "manage_group_schedule", ctx);
         } else {
-            new GroupScheduleGenerator().generate(competition, ScheduleType.WAVES);
+            final ScheduleType type = "groups".equals(ctx.formParam("schedule_type")) ? ScheduleType.GROUPS : ScheduleType.WAVES;
+            new GroupScheduleGenerator().generate(competition, type);
             wcaApi.updateCompetition(session.getWcaSession(), competition);
             ctx.redirect("/" + competition.getId());
         }
