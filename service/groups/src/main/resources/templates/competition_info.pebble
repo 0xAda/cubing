@@ -122,4 +122,10 @@
                 </div>
             </form>
         </div>
+
+        <div class="mt-4 text-right">
+            <a href="/{{ competition_id }}/advanced" class="text-sm text-gray-400 hover:text-gray-600 underline">
+                Advanced
+            </a>
+        </div>
 {% endblock %}
