@@ -182,8 +182,8 @@ public class GroupScheduleGeneratorTest {
                 group(2, "10:20:00", "10:40:00")
         );
         assertGroupSchedule(testComp, "Room 2", OfficialEvent.THREE_BY_THREE, 1,
-                group(1, "10:20:00", "10:40:00"),
-                group(2, "10:40:00", "11:00:00")
+                group(2, "10:20:00", "10:40:00"),
+                group(3, "10:40:00", "11:00:00")
         );
     }
 
@@ -262,7 +262,7 @@ public class GroupScheduleGeneratorTest {
         );
 
         assertGroupSchedule(testComp, "Blue Stage", OfficialEvent.SQUARE_ONE, 1,
-                group(1, "10:22:30", "10:45:00")
+                group(2, "10:22:30", "10:45:00")
         );
         assertGroupSchedule(testComp, "Red Stage", OfficialEvent.SQUARE_ONE, 1,
                 group(1, "10:00:00", "10:22:30"),
@@ -288,7 +288,7 @@ public class GroupScheduleGeneratorTest {
         );
 
         assertGroupSchedule(testComp, "Blue Stage", OfficialEvent.SEVEN_BY_SEVEN, 1,
-                group(1, "12:10:00", "12:40:00")
+                group(2, "12:10:00", "12:40:00")
         );
         assertGroupSchedule(testComp, "Red Stage", OfficialEvent.SEVEN_BY_SEVEN, 1,
                 group(1, "11:40:00", "12:10:00"),
@@ -329,12 +329,12 @@ public class GroupScheduleGeneratorTest {
         );
 
         assertGroupSchedule(testComp, "Blue Stage", OfficialEvent.FOUR_BY_FOUR, 1,
-                group(1, "15:40:00", "16:02:30"),
-                group(2, "16:02:30", "16:25:00")
+                group(2, "15:40:00", "16:02:30"),
+                group(3, "16:02:30", "16:25:00")
         );
         assertGroupSchedule(testComp, "Red Stage", OfficialEvent.FOUR_BY_FOUR, 1,
-                group(1, "15:40:00", "16:02:30"),
-                group(2, "16:02:30", "16:25:00")
+                group(2, "15:40:00", "16:02:30"),
+                group(3, "16:02:30", "16:25:00")
         );
         assertGroupSchedule(testComp, "Yellow Stage", OfficialEvent.FOUR_BY_FOUR, 1,
                 group(1, "15:20:00", "15:40:00"),
@@ -352,7 +352,7 @@ public class GroupScheduleGeneratorTest {
                 group(2, "16:50:00", "17:15:00")
         );
         assertGroupSchedule(testComp, "Yellow Stage", OfficialEvent.SIX_BY_SIX, 1,
-                group(1, "16:50:00", "17:15:00")
+                group(2, "16:50:00", "17:15:00")
         );
     }
 

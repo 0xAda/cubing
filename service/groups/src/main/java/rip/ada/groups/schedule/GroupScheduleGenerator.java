@@ -94,11 +94,23 @@ public class GroupScheduleGenerator {
         final Duration totalEventDuration = Duration.between(earliestTime, latestTime);
         final Duration averageTimePerGroup = totalEventDuration.dividedBy(scrambleSetCount);
 
+        final List<List<GroupTimeRange>> rangesPerStage = new ArrayList<>();
         for (final Activity activity : matchingActivities) {
-            final List<GroupTimeRange> ranges = computeGroupTimeRanges(activity, averageTimePerGroup, endTimes);
-            for (int i = 0; i < ranges.size(); i++) {
-                final GroupTimeRange range = ranges.get(i);
-                addGroupActivity(competition, activity, activityCode, i + 1, range.startTime(), range.endTime());
+            rangesPerStage.add(computeGroupTimeRanges(activity, averageTimePerGroup, endTimes));
+        }
+
+        final List<Instant> waveStartTimes = rangesPerStage.stream()
+                .flatMap(List::stream)
+                .map(GroupTimeRange::startTime)
+                .distinct()
+                .sorted()
+                .toList();
+
+        for (int stage = 0; stage < matchingActivities.size(); stage++) {
+            final Activity activity = matchingActivities.get(stage);
+            for (final GroupTimeRange range : rangesPerStage.get(stage)) {
+                final int groupNumber = waveStartTimes.indexOf(range.startTime()) + 1;
+                addGroupActivity(competition, activity, activityCode, groupNumber, range.startTime(), range.endTime());
             }
         }
     }
