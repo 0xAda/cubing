@@ -40,7 +40,7 @@ public class Generator {
                                         childActivity.getActivityCode().event() == round.event() &&
                                         childActivity.getActivityCode().round().equals(round.roundNumber())) {
                                     scorecards.add(new Scorecard(
-                                            competition.getName(),
+                                            competition.getShortName(),
                                             person.registrantId(),
                                             person.wcaId() != null ? person.wcaId() : "New competitor",
                                             person.name(),
