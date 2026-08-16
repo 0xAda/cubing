@@ -21,7 +21,7 @@ public class WCAConfigCompatibilityTest {
 
     @Test
     public void shouldNotHaveChangedPreferredFormats() throws IOException, NoSuchAlgorithmException, InterruptedException {
-        assertUnchanged("lib/static_data/preferred_formats.json", "8c624eae39071f13be7db62091a3ec4a2b476bf728b1cb15e5329d27bc9a8343");
+        assertUnchanged("lib/static_data/preferred_formats.json", "4928a5795e0ee0dad4dbfcc5e2237cd24e3ef4642f924c3143f1cf7b7fb113c1");
     }
 
     @Test
@@ -31,7 +31,7 @@ public class WCAConfigCompatibilityTest {
 
     @Test
     public void shouldNotHaveChangedEvents() throws IOException, NoSuchAlgorithmException, InterruptedException {
-        assertUnchanged("lib/static_data/events.json", "5ce0faa4739c3cd4ed2bc422bd38ea4a5f91b43fee62ef90984ad2dee0a7fec1");
+        assertUnchanged("lib/static_data/events.json", "de5617cabe097517cddecdaba75937928e47b9b144739ca73901ce3554d18ff2");
     }
 
     @Test

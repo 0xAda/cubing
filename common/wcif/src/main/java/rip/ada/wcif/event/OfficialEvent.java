@@ -26,6 +26,7 @@ public enum OfficialEvent implements EventType {
     MULTI_BLIND("333mbf", "3x3x3 Multi-Blind", false, RoundFormat.BEST_OF_THREE, THREE_BY_THREE),
     SQUARE_ONE("sq1", "Square-1", false, RoundFormat.AVERAGE_OF_FIVE),
     FMC("333fm", "3x3x3 Fewest Moves", false, RoundFormat.MEAN_OF_THREE, THREE_BY_THREE),
+    FACE_TURNING_OCTAHEDRON("fto", "Face Turning Octahedron", false, RoundFormat.AVERAGE_OF_FIVE),
     //Removed events, still need to be able to parse in WCIF
     MULTI_BLIND_OLD_STYLE("333mbo", "3x3x3 Multi-Blind Old Style", true, RoundFormat.AVERAGE_OF_FIVE, THREE_BY_THREE),
     THREE_BY_THREE_WITH_FEET("333ft", "3x3x3 With Feet", true, RoundFormat.AVERAGE_OF_FIVE, THREE_BY_THREE),

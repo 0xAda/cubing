@@ -23,7 +23,7 @@ public class CompetitionWarnings {
         for (final Event event : competition.getEvents()) {
             for (final Round round : event.rounds()) {
                 for (final Result result : round.results()) {
-                    if (!result.attempts().isEmpty() && result.attempts().getFirst().result().value() == result.personId()) {
+                    if (!result.attempts().isEmpty() && result.attempts().getFirst().value().value() == result.personId()) {
                         messages.add(new Message("Competitor " + competition.getPersonById(result.personId()).name() + " has a time entered in " + round.activityCode().getDisplayName() + " that is equal to their competitor id",
                                 Message.Type.WARNING));
                     }
@@ -39,7 +39,7 @@ public class CompetitionWarnings {
                         if (!result.attempts().isEmpty()) {
 
                         }
-                        timeLimitTracker.addResult(result.personId(), attempt.result());
+                        timeLimitTracker.addResult(result.personId(), attempt.value());
                     }
                 }
             }
