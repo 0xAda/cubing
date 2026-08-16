@@ -44,8 +44,10 @@ public class WcifPatcher implements Runnable {
                 continue;
             }
             final ObjectNode events = jsonNode.deepCopy();
-
+            events.remove("schedule");
+            events.remove("persons");
             wcaApi.updateWcifDirectly(request.session(), request.competition().getId(), events);
+
             final ObjectNode schedule = jsonNode.deepCopy();
             schedule.remove("persons");
             schedule.remove("events");
