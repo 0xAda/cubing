@@ -56,7 +56,8 @@ public class ScheduleImportHandler extends AuthenticatedCompetitionHandler {
             Map.entry("Skewb", OfficialEvent.SKEWB),
             Map.entry("Square-1", OfficialEvent.SQUARE_ONE),
             Map.entry("MBLD", OfficialEvent.MULTI_BLIND),
-            Map.entry("FMC", OfficialEvent.FMC)
+            Map.entry("FMC", OfficialEvent.FMC),
+            Map.entry("FTO", UnofficialEvent.FTO) //TODO: this should be the official fto event but the ukca spreadsheet lacks support
     );
     static int index = 1;
     private final AuthenticatedWcaApi wcaApi;
@@ -116,6 +117,15 @@ public class ScheduleImportHandler extends AuthenticatedCompetitionHandler {
             return;
         }
 
+        importSchedule(competition, rows);
+
+        wcaApi.updateCompetition(session.getWcaSession(), competition);
+
+        model(ctx).put("messages", List.of(new Message("Imported schedule from sheet.", Message.Type.SUCCESS)));
+        render(engine, "ukca", ctx);
+    }
+
+    void importSchedule(final Competition competition, final List<List<Object>> rows) {
         final List<Object> firstRow = rows.getFirst();
         final int dayIndex = firstRow.indexOf("Day");
         final int timeIndex = firstRow.indexOf("Time");
@@ -199,20 +209,35 @@ public class ScheduleImportHandler extends AuthenticatedCompetitionHandler {
 
                     final List<Round> eventRounds = rounds.computeIfAbsent(oe, _ -> new ArrayList<>());
                     final ParticipationRuleset participationRuleset;
+                    final List<ActivityCode> linkedRounds;
                     if (eventRounds.isEmpty()) {
                         participationRuleset = new ParticipationRuleset(new RegistrationsParticipationSource(), null);
+                        linkedRounds = null;
                     } else {
-                        final Round previousRound = eventRounds.get(eventRounds.size() - 1);
-                        participationRuleset = new ParticipationRuleset(
-                                new RoundParticipationSource(previousRound.activityCode(), progressions.get(previousRound.activityCode())),
-                                null);
+                        final int previousRoundIndex = eventRounds.size() - 1;
+                        final Round previousRound = eventRounds.get(previousRoundIndex);
+                        final ResultCondition previousProgression = progressions.get(previousRound.activityCode());
+                        if (previousProgression instanceof PercentResultCondition percent && percent.value() == 100) {
+                            linkedRounds = List.of(previousRound.activityCode(), activityCode);
+                            eventRounds.set(previousRoundIndex, withLinkedRounds(previousRound, linkedRounds));
+                            participationRuleset = previousRound.participationRuleset();
+                        } else {
+                            linkedRounds = null;
+                            final ParticipationSource participationSource;
+                            if (previousRound.linkedRounds() == null) {
+                                participationSource = new RoundParticipationSource(previousRound.activityCode(), previousProgression);
+                            } else {
+                                participationSource = new LinkedRoundsParticipationSource(previousRound.linkedRounds(), previousProgression);
+                            }
+                            participationRuleset = new ParticipationRuleset(participationSource, null);
+                        }
                     }
                     eventRounds.add(new Round(
                             activityCode,
                             oe.getPreferredRoundFormat(),
                             parseTimeLimit(timeLimitIndex, row, activityCode, cumulativeRounds),
                             parseCutoff(cutoffIndex, row, oe.getPreferredRoundFormat()),
-                            null,
+                            linkedRounds,
                             participationRuleset,
                             List.of(),
                             Integer.parseInt(groups),
@@ -258,11 +283,21 @@ public class ScheduleImportHandler extends AuthenticatedCompetitionHandler {
                     List.of()
             ));
         }
+    }
 
-        wcaApi.updateCompetition(session.getWcaSession(), competition);
-
-        model(ctx).put("messages", List.of(new Message("Imported schedule from sheet.", Message.Type.SUCCESS)));
-        render(engine, "ukca", ctx);
+    private static Round withLinkedRounds(final Round round, final List<ActivityCode> linkedRounds) {
+        return new Round(
+                round.activityCode(),
+                round.format(),
+                round.timeLimit(),
+                round.cutoff(),
+                linkedRounds,
+                round.participationRuleset(),
+                round.results(),
+                round.scrambleSetCount(),
+                round.scrambleSets(),
+                round.extensions()
+        );
     }
 
     private ResultCondition parseResultCondition(final int rowIndex, final List<Object> row, final RoundFormat roundFormat) {
