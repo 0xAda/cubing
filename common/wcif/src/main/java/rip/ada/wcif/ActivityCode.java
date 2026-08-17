@@ -9,6 +9,10 @@ import rip.ada.wcif.event.UnrecognizedUnofficialEvent;
 
 public record ActivityCode(EventType event, Integer round, Integer group, Integer attempt) {
 
+    public static ActivityCode round(EventType event, int round) {
+        return new ActivityCode(event, round, null, null);
+    }
+
     public String getDisplayName() {
         final StringBuilder stringBuilder = new StringBuilder();
         stringBuilder.append(event.getFriendlyName());

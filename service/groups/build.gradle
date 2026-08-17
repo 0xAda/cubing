@@ -3,6 +3,25 @@ plugins {
     id "com.netflix.nebula.ospackage" version "12.1.1"
 }
 
+sourceSets {
+    testSupport {
+        compileClasspath += sourceSets.main.output
+        runtimeClasspath += sourceSets.main.output
+        java {
+            srcDir 'src/test-support/java'
+        }
+    }
+    test {
+        compileClasspath += sourceSets.testSupport.output
+        runtimeClasspath += sourceSets.testSupport.output
+    }
+}
+
+configurations {
+    testSupportImplementation.extendsFrom implementation
+    testImplementation.extendsFrom testSupportImplementation
+}
+
 dependencies {
     implementation(project(":common:wca-api"))
     implementation(project(":common:wca-scraper"))
@@ -23,6 +42,8 @@ dependencies {
     implementation("org.slf4j:slf4j-api:2.0.11")
     testImplementation platform('org.junit:junit-bom:5.10.0')
     testImplementation("org.junit.jupiter:junit-jupiter")
+    testSupportImplementation platform('org.junit:junit-bom:5.10.0')
+    testSupportImplementation("org.junit.jupiter:junit-jupiter")
 }
 
 tasks.register('rpm', Rpm) {
