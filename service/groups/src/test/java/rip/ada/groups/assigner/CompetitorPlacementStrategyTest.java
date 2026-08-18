@@ -20,9 +20,8 @@ public class CompetitorPlacementStrategyTest {
     public void randomPlacementShouldEvenlyDistributeGroups() {
         final Competition competition = getCompetition("YorkSummer2026");
         new GroupScheduleGenerator().generate(competition, ScheduleType.GROUPS);
-        final CompetitorProvider competitorProvider = new CompetitorProvider(competition);
         final CompetitorPlacementStrategy random = CompetitorPlacementStrategy.RANDOM_PLACEMENT;
-        final List<ProposedAssignment> proposedAssignments = random.placeCompetitorsForRound(competition, competitorProvider, ROUND_ONE_333);
+        final List<ProposedAssignment> proposedAssignments = random.placeCompetitorsForRound(competition, ROUND_ONE_333);
 
         assertAllCompetitorsHaveASlotInEventFirstRound(competition, OfficialEvent.THREE_BY_THREE, proposedAssignments);
 
@@ -33,9 +32,8 @@ public class CompetitorPlacementStrategyTest {
     public void rankedPlacement() {
         final Competition competition = getCompetition("YorkSummer2026");
         new GroupScheduleGenerator().generate(competition, ScheduleType.GROUPS);
-        final CompetitorProvider competitorProvider = new CompetitorProvider(competition);
         final CompetitorPlacementStrategy random = CompetitorPlacementStrategy.RANKED;
-        final List<ProposedAssignment> proposedAssignments = random.placeCompetitorsForRound(competition, competitorProvider, ROUND_ONE_333);
+        final List<ProposedAssignment> proposedAssignments = random.placeCompetitorsForRound(competition, ROUND_ONE_333);
 
         assertAllCompetitorsHaveASlotInEventFirstRound(competition, OfficialEvent.THREE_BY_THREE, proposedAssignments);
 
@@ -50,9 +48,8 @@ public class CompetitorPlacementStrategyTest {
     public void symmetricPlacement() {
         final Competition competition = getCompetition("YorkSummer2026");
         new GroupScheduleGenerator().generate(competition, ScheduleType.GROUPS);
-        final CompetitorProvider competitorProvider = new CompetitorProvider(competition);
         final CompetitorPlacementStrategy random = CompetitorPlacementStrategy.SYMMETRIC;
-        final List<ProposedAssignment> proposedAssignments = random.placeCompetitorsForRound(competition, competitorProvider, ROUND_ONE_333);
+        final List<ProposedAssignment> proposedAssignments = random.placeCompetitorsForRound(competition, ROUND_ONE_333);
 
         assertAllCompetitorsHaveASlotInEventFirstRound(competition, OfficialEvent.THREE_BY_THREE, proposedAssignments);
 

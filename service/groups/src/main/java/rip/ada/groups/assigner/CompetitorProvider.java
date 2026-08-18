@@ -7,13 +7,7 @@ import java.util.List;
 
 public class CompetitorProvider {
 
-    private final Competition competition;
-
-    public CompetitorProvider(final Competition competition) {
-        this.competition = competition;
-    }
-
-    public List<Person> getCompetitors(final ActivityCode round) {
+    public static List<Person> getCompetitors(final Competition competition, final ActivityCode round) {
         for (final Event event : competition.getEvents()) {
             for (final Round eventRound : event.rounds()) {
                 if (!eventRound.activityCode().equals(round)) {

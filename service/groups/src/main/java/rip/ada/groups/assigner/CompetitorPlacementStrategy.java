@@ -11,11 +11,11 @@ import java.util.List;
 
 public interface CompetitorPlacementStrategy {
 
-    List<ProposedAssignment> placeCompetitorsForRound(Competition competition, CompetitorProvider competitorProvider, ActivityCode round);
+    List<ProposedAssignment> placeCompetitorsForRound(Competition competition, ActivityCode round);
 
-    CompetitorPlacementStrategy RANDOM_PLACEMENT = (competition, competitorProvider, round) -> {
+    CompetitorPlacementStrategy RANDOM_PLACEMENT = (competition, round) -> {
         final List<ProposedAssignment> proposedAssignments = new ArrayList<>();
-        final List<Person> competitors = competitorProvider.getCompetitors(round);
+        final List<Person> competitors = CompetitorProvider.getCompetitors(competition, round);
         Collections.shuffle(competitors);
 
         roundRobin(competition, round, competitors, proposedAssignments);
@@ -23,9 +23,9 @@ public interface CompetitorPlacementStrategy {
         return proposedAssignments;
     };
 
-    CompetitorPlacementStrategy SYMMETRIC = (competition, competitorProvider, round) -> {
+    CompetitorPlacementStrategy SYMMETRIC = (competition, round) -> {
         final List<ProposedAssignment> proposedAssignments = new ArrayList<>();
-        final List<Person> competitors = competitorProvider.getCompetitors(round);
+        final List<Person> competitors = CompetitorProvider.getCompetitors(competition, round);
         competitors.sort(CompetitorComparators.sortByPersonalBest((OfficialEvent) round.event(), ResultType.AVERAGE));
 
         roundRobin(competition, round, competitors, proposedAssignments);
@@ -33,9 +33,9 @@ public interface CompetitorPlacementStrategy {
         return proposedAssignments;
     };
 
-    CompetitorPlacementStrategy RANKED = (competition, competitorProvider, round) -> {
+    CompetitorPlacementStrategy RANKED = (competition, round) -> {
         final List<ProposedAssignment> proposedAssignments = new ArrayList<>();
-        final List<Person> competitors = competitorProvider.getCompetitors(round);
+        final List<Person> competitors = CompetitorProvider.getCompetitors(competition, round);
         competitors.sort(CompetitorComparators.sortByPersonalBest((OfficialEvent) round.event(), ResultType.AVERAGE).reversed());
 
         final List<Activity> groups = competition.getGroups(round);

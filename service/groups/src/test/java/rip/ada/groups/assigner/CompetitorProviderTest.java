@@ -16,27 +16,24 @@ public class CompetitorProviderTest {
     @Test
     public void shouldGetRoundOneCompetitors() {
         final Competition competition = getCompetition("YorkSummer2026");
-        final CompetitorProvider competitorProvider = new CompetitorProvider(competition);
 
-        final List<Person> competitors = competitorProvider.getCompetitors(ActivityCode.round(OfficialEvent.THREE_BY_THREE, 1));
+        final List<Person> competitors = CompetitorProvider.getCompetitors(competition, ActivityCode.round(OfficialEvent.THREE_BY_THREE, 1));
         assertEquals(84, competitors.size());
     }
 
     @Test
     public void shouldGetSecondRoundCompetitors() {
         final Competition competition = getCompetition("BristolAugust2026");
-        final CompetitorProvider competitorProvider = new CompetitorProvider(competition);
 
-        final List<Person> competitors = competitorProvider.getCompetitors(ActivityCode.round(OfficialEvent.THREE_BY_THREE, 2));
+        final List<Person> competitors = CompetitorProvider.getCompetitors(competition, ActivityCode.round(OfficialEvent.THREE_BY_THREE, 2));
         assertEquals(62, competitors.size());
     }
 
     @Test
     public void shouldGetDualRoundCompetitorsFromRegistration() {
         final Competition competition = getCompetition("ManchesterCLFinal2026");
-        final CompetitorProvider competitorProvider = new CompetitorProvider(competition);
 
-        final List<Person> competitors = competitorProvider.getCompetitors(ActivityCode.round(OfficialEvent.THREE_BY_THREE, 2));
+        final List<Person> competitors = CompetitorProvider.getCompetitors(competition, ActivityCode.round(OfficialEvent.THREE_BY_THREE, 2));
         assertEquals(44, competitors.size());
     }
 
