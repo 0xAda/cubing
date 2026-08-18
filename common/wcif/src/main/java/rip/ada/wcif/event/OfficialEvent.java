@@ -95,6 +95,12 @@ public enum OfficialEvent implements EventType {
         return baseEvent;
     }
 
+    @Override
+    public boolean multiAttempt() {
+        return this == MULTI_BLIND || this == FMC || this == MULTI_BLIND_OLD_STYLE;
+    }
+
+
     public RoundFormat getPreferredRoundFormat() {
         return preferredRoundFormat;
     }

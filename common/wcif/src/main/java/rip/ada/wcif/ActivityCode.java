@@ -9,8 +9,20 @@ import rip.ada.wcif.event.UnrecognizedUnofficialEvent;
 
 public record ActivityCode(EventType event, Integer round, Integer group, Integer attempt) {
 
-    public static ActivityCode round(EventType event, int round) {
+    public static ActivityCode round(final EventType event, final int round) {
         return new ActivityCode(event, round, null, null);
+    }
+
+    public ActivityCode group(final int group) {
+        return new ActivityCode(event, round, group, attempt);
+    }
+
+    public ActivityCode attempt(final int attempt) {
+        return new ActivityCode(event, round, group, attempt);
+    }
+
+    public ActivityCode withoutGroup() {
+        return new ActivityCode(event, round, null, attempt);
     }
 
     public String getDisplayName() {

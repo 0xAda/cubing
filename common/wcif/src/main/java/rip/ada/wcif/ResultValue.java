@@ -5,6 +5,9 @@ import com.fasterxml.jackson.annotation.JsonValue;
 
 public record ResultValue(@JsonValue int value) {
 
+    public static ResultValue DNF = new ResultValue(-1);
+    public static ResultValue DNS = new ResultValue(-2);
+
     public boolean isSuccess() {
         return value > 0;
     }

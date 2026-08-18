@@ -253,7 +253,9 @@ public final class Competition {
     public List<Person> getCompetingPersons() {
         final List<Person> persons = new ArrayList<>();
         for (final Person person : this.getPersons()) {
-            if (person.registration() == null || person.registration().registrationStatus() != RegistrationStatus.ACCEPTED) {
+            if (person.registration() == null ||
+                    person.registration().registrationStatus() != RegistrationStatus.ACCEPTED ||
+                    !person.registration().isCompeting()) {
                 continue;
             }
             persons.add(person);
@@ -282,5 +284,25 @@ public final class Competition {
             maxActivityId = Math.max(maxActivityId, getMaxActivityId(activity.getChildActivities()));
         }
         return maxActivityId;
+    }
+
+    public List<Room> getAllRooms() {
+        final List<Room> rooms = new ArrayList<>();
+
+        for (final Venue venue : schedule.getVenues()) {
+            rooms.addAll(venue.getRooms());
+        }
+
+        return rooms;
+    }
+
+    public List<Activity> getGroups(final ActivityCode round) {
+        final List<Activity> groups = new ArrayList<>();
+        for (final Venue venue : schedule.getVenues()) {
+            for (final Room room : venue.getRooms()) {
+                groups.addAll(room.getGroups(round));
+            }
+        }
+        return groups;
     }
 }

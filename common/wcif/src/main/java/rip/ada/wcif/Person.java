@@ -3,6 +3,7 @@ package rip.ada.wcif;
 import com.fasterxml.jackson.annotation.JsonFormat;
 import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.annotation.JsonProperty;
+import rip.ada.wcif.event.OfficialEvent;
 
 import java.time.LocalDate;
 import java.util.List;
@@ -23,4 +24,14 @@ public record Person(
         @JsonProperty("personalBests") List<PersonalBest> personalBests,
         @JsonProperty("extensions") List<Extension> extensions
 ) {
+
+    public ResultValue getPersonalBest(final OfficialEvent event, final ResultType resultType) {
+        for (final PersonalBest personalBest : personalBests) {
+            if (personalBest.type() == resultType && personalBest.event() == event) {
+                return personalBest.value();
+            }
+        }
+        return ResultValue.DNF;
+    }
+
 }

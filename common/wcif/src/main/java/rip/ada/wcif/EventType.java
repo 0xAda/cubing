@@ -23,6 +23,10 @@ public interface EventType {
 
     EventType getBaseEvent();
 
+    default boolean multiAttempt() {
+        return false;
+    }
+
     @JsonCreator
     static EventType fromEventId(final String eventId) {
         final OfficialEvent officialEvent = OfficialEvent.fromString(eventId);
