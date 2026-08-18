@@ -71,11 +71,11 @@ public class Generator {
                     .filter(person ->
                             person.personalBests().stream()
                                     .anyMatch(personalBest ->
-                                            personalBest.type() == (event.eventType().getPreferredRoundFormat().getSortBy().equals("average") ? ResultType.AVERAGE : ResultType.SINGLE) &&
+                                            personalBest.type() == event.eventType().getPreferredRoundFormat().getSortBy() &&
                                                     personalBest.event() == event.eventType() &&
                                                     personalBest.value().isSuccess()))
                     .sorted(Comparator.comparingInt(person -> person.personalBests().stream().filter(personalBest ->
-                            personalBest.type() == (event.eventType().getPreferredRoundFormat().getSortBy().equals("average") ? ResultType.AVERAGE : ResultType.SINGLE) &&
+                            personalBest.type() == event.eventType().getPreferredRoundFormat().getSortBy() &&
                                     personalBest.event() == event.eventType()
                     ).map(personalBest -> personalBest.value().value()).findFirst().orElse(Integer.MAX_VALUE))).toList();
             final int ranking = rankings.indexOf(competition.getPersonById(personId));

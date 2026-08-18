@@ -304,7 +304,7 @@ public class ScheduleImportHandler extends AuthenticatedCompetitionHandler {
         if (rowIndex == -1 || row.get(rowIndex).toString().isBlank()) {
             return null;
         }
-        final ResultType scope = roundFormat.getSortBy().equals("average") ? ResultType.AVERAGE : ResultType.SINGLE;
+        final ResultType scope = roundFormat.getSortBy();
         final String progression = row.get(rowIndex).toString();
         if (progression.endsWith("%")) {
             return new PercentResultCondition(scope, Integer.parseInt(progression.split("%")[0]));
