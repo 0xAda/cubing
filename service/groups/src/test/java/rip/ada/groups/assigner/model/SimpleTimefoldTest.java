@@ -32,10 +32,10 @@ public class SimpleTimefoldTest {
                 Set.of(roundId),
                 List.of(firstSlot, secondSlot)
         );
-
         final List<CompetitorPlacementEntity> placements =
                 IntStream.range(0, 4)
                         .mapToObj(index -> new CompetitorPlacementEntity(
+                                index,
                                 roundSet,
                                 new CompetitorId(index + 1),
                                 Set.of(roundId),

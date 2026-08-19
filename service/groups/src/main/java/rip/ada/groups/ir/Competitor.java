@@ -7,4 +7,13 @@ public record Competitor(CompetitorId id,
     public Competitor {
         commitments = List.copyOf(commitments);
     }
+
+    public boolean hasConflictingCommitment(final TimeWindow timeWindow) {
+        for (final ExistingCommitment commitment : commitments) {
+            if (commitment.timeWindow().overlaps(timeWindow)) {
+                return true;
+            }
+        }
+        return false;
+    }
 }
