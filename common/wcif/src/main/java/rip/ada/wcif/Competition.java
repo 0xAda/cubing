@@ -286,6 +286,7 @@ public final class Competition {
         return maxActivityId;
     }
 
+    @JsonIgnore
     public List<Room> getAllRooms() {
         final List<Room> rooms = new ArrayList<>();
 
